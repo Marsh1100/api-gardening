@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Domain.Entities;
 
-namespace Persistence.Entities;
+namespace Domain.Entities;
 
 public partial class Client : BaseEntity
 {
