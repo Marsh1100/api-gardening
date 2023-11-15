@@ -40,7 +40,7 @@ public partial class GardeningContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder
-            .UseCollation("utf8mb4_general_ci")
+            .UseCollation("utf8mb4_0900_ai_ci")
             .HasCharSet("utf8mb4");
 
         modelBuilder.Entity<Client>(entity =>
@@ -51,9 +51,7 @@ public partial class GardeningContext : DbContext
 
             entity.HasIndex(e => e.IdEmployee, "idEmployee");
 
-            entity.Property(e => e.Id)
-                .HasColumnType("int(11)")
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Address1)
                 .IsRequired()
                 .HasMaxLength(50)
@@ -75,9 +73,7 @@ public partial class GardeningContext : DbContext
                 .IsRequired()
                 .HasMaxLength(15)
                 .HasColumnName("fax");
-            entity.Property(e => e.IdEmployee)
-                .HasColumnType("int(11)")
-                .HasColumnName("idEmployee");
+            entity.Property(e => e.IdEmployee).HasColumnName("idEmployee");
             entity.Property(e => e.LastnameContact)
                 .HasMaxLength(50)
                 .HasColumnName("lastnameContact");
@@ -114,9 +110,7 @@ public partial class GardeningContext : DbContext
 
             entity.HasIndex(e => e.IdOffice, "idOffice");
 
-            entity.Property(e => e.Id)
-                .HasColumnType("int(11)")
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Email)
                 .IsRequired()
                 .HasMaxLength(100)
@@ -129,12 +123,8 @@ public partial class GardeningContext : DbContext
                 .IsRequired()
                 .HasMaxLength(50)
                 .HasColumnName("firstSurname");
-            entity.Property(e => e.IdBoss)
-                .HasColumnType("int(11)")
-                .HasColumnName("idBoss");
-            entity.Property(e => e.IdOffice)
-                .HasColumnType("int(11)")
-                .HasColumnName("idOffice");
+            entity.Property(e => e.IdBoss).HasColumnName("idBoss");
+            entity.Property(e => e.IdOffice).HasColumnName("idOffice");
             entity.Property(e => e.Name)
                 .IsRequired()
                 .HasMaxLength(50)
@@ -163,9 +153,7 @@ public partial class GardeningContext : DbContext
 
             entity.ToTable("office");
 
-            entity.Property(e => e.Id)
-                .HasColumnType("int(11)")
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Address1)
                 .IsRequired()
                 .HasMaxLength(50)
@@ -207,12 +195,8 @@ public partial class GardeningContext : DbContext
 
             entity.HasIndex(e => e.IdClient, "idClient");
 
-            entity.Property(e => e.Id)
-                .HasColumnType("int(11)")
-                .HasColumnName("id");
-            entity.Property(e => e.IdClient)
-                .HasColumnType("int(11)")
-                .HasColumnName("idClient");
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.IdClient).HasColumnName("idClient");
             entity.Property(e => e.PaymentDate).HasColumnName("paymentDate");
             entity.Property(e => e.PaymentMethod)
                 .IsRequired()
@@ -221,6 +205,10 @@ public partial class GardeningContext : DbContext
             entity.Property(e => e.Total)
                 .HasPrecision(15, 2)
                 .HasColumnName("total");
+            entity.Property(e => e.TransactionId)
+                .IsRequired()
+                .HasMaxLength(50)
+                .HasColumnName("transactionId");
 
             entity.HasOne(d => d.IdClientNavigation).WithMany(p => p.Payments)
                 .HasForeignKey(d => d.IdClient)
@@ -236,18 +224,14 @@ public partial class GardeningContext : DbContext
 
             entity.HasIndex(e => e.IdProductType, "idProductType");
 
-            entity.Property(e => e.Id)
-                .HasColumnType("int(11)")
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Description)
                 .HasColumnType("text")
                 .HasColumnName("description");
             entity.Property(e => e.Dimensions)
                 .HasMaxLength(25)
                 .HasColumnName("dimensions");
-            entity.Property(e => e.IdProductType)
-                .HasColumnType("int(11)")
-                .HasColumnName("idProductType");
+            entity.Property(e => e.IdProductType).HasColumnName("idProductType");
             entity.Property(e => e.Name)
                 .IsRequired()
                 .HasMaxLength(70)
@@ -265,9 +249,7 @@ public partial class GardeningContext : DbContext
             entity.Property(e => e.SalePrice)
                 .HasPrecision(15, 2)
                 .HasColumnName("salePrice");
-            entity.Property(e => e.Stock)
-                .HasColumnType("smallint(6)")
-                .HasColumnName("stock");
+            entity.Property(e => e.Stock).HasColumnName("stock");
 
             entity.HasOne(d => d.IdProductTypeNavigation).WithMany(p => p.Products)
                 .HasForeignKey(d => d.IdProductType)
@@ -281,9 +263,7 @@ public partial class GardeningContext : DbContext
 
             entity.ToTable("producttype");
 
-            entity.Property(e => e.Id)
-                .HasColumnType("int(11)")
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.DescriptionHtml)
                 .HasColumnType("text")
                 .HasColumnName("descriptionHtml");
@@ -293,6 +273,10 @@ public partial class GardeningContext : DbContext
             entity.Property(e => e.Image)
                 .HasMaxLength(256)
                 .HasColumnName("image");
+            entity.Property(e => e.Type)
+                .IsRequired()
+                .HasMaxLength(50)
+                .HasColumnName("type");
         });
 
         modelBuilder.Entity<Request>(entity =>
@@ -303,20 +287,13 @@ public partial class GardeningContext : DbContext
 
             entity.HasIndex(e => e.IdClient, "idClient");
 
-            entity.Property(e => e.Id)
-                .HasColumnType("int(11)")
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.DeliveryDate).HasColumnName("deliveryDate");
             entity.Property(e => e.ExpectedDate).HasColumnName("expectedDate");
             entity.Property(e => e.Feedback)
                 .HasColumnType("text")
                 .HasColumnName("feedback");
-            entity.Property(e => e.IdClient)
-                .HasColumnType("int(11)")
-                .HasColumnName("idClient");
-            entity.Property(e => e.RequestCode)
-                .HasColumnType("int(11)")
-                .HasColumnName("requestCode");
+            entity.Property(e => e.IdClient).HasColumnName("idClient");
             entity.Property(e => e.RequestDate).HasColumnName("requestDate");
             entity.Property(e => e.State)
                 .IsRequired()
@@ -339,21 +316,11 @@ public partial class GardeningContext : DbContext
 
             entity.HasIndex(e => e.IdRequest, "idRequest");
 
-            entity.Property(e => e.Id)
-                .HasColumnType("int(11)")
-                .HasColumnName("id");
-            entity.Property(e => e.IdProduct)
-                .HasColumnType("int(11)")
-                .HasColumnName("idProduct");
-            entity.Property(e => e.IdRequest)
-                .HasColumnType("int(11)")
-                .HasColumnName("idRequest");
-            entity.Property(e => e.LineNumber)
-                .HasColumnType("smallint(6)")
-                .HasColumnName("lineNumber");
-            entity.Property(e => e.Quantity)
-                .HasColumnType("int(11)")
-                .HasColumnName("quantity");
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.IdProduct).HasColumnName("idProduct");
+            entity.Property(e => e.IdRequest).HasColumnName("idRequest");
+            entity.Property(e => e.LineNumber).HasColumnName("lineNumber");
+            entity.Property(e => e.Quantity).HasColumnName("quantity");
             entity.Property(e => e.UnitPrice)
                 .HasPrecision(15, 2)
                 .HasColumnName("unitPrice");
@@ -368,6 +335,20 @@ public partial class GardeningContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("requestdetail_ibfk_1");
         });
+
+        modelBuilder.Entity<Rol>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("rol");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Name)
+                .IsRequired()
+                .HasMaxLength(50)
+                .HasColumnName("name");
+        });
+
 
         OnModelCreatingPartial(modelBuilder);
 

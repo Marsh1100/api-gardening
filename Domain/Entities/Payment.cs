@@ -6,7 +6,10 @@ namespace Persistence.Entities;
 
 public partial class Payment : BaseEntity
 {
+
     public int IdClient { get; set; }
+
+    public string TransactionId { get; set; }
 
     public string PaymentMethod { get; set; }
 

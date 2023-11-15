@@ -6,6 +6,7 @@ namespace Persistence.Entities;
 
 public partial class Employee : BaseEntity
 {
+
     public string Name { get; set; }
 
     public string FirstSurname { get; set; }

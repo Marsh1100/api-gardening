@@ -6,6 +6,9 @@ namespace Persistence.Entities;
 
 public partial class Producttype : BaseEntity
 {
+
+    public string Type { get; set; }
+
     public string DescriptionText { get; set; }
 
     public string DescriptionHtml { get; set; }
