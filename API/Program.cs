@@ -48,7 +48,7 @@ using (var scope = app.Services.CreateScope())
 	{
 		var context = services.GetRequiredService<GardeningContext>();
 		await context.Database.MigrateAsync();
-		await ApiDbContextSeed.SeedAsync(context,loggerFactory);
+		await GardeningContextSeed.SeedAsync(context,loggerFactory);
 
 	}
 	catch (Exception ex)
