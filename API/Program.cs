@@ -1,5 +1,6 @@
 using System.Reflection;
 using API.Extension;
+using AspNetCoreRateLimit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -57,6 +58,8 @@ using (var scope = app.Services.CreateScope())
 		_logger.LogError(ex, "Ocurrio un error durante la migración");
 	}
 }
+app.UseIpRateLimiting();
+
 
 app.UseCors("CorsPolicy");
 
