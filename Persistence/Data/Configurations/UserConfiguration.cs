@@ -43,15 +43,15 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
                 j=> j
                     .HasOne(t=> t.Rol)
                     .WithMany(m=> m.UsersRoles)
-                    .HasForeignKey(f=> f.RolId),
+                    .HasForeignKey(f=> f.IdRol),
                 j=> j
                     .HasOne(t=> t.User)
                     .WithMany(m=>m.UsersRoles)
-                    .HasForeignKey(f=> f.UserId),
+                    .HasForeignKey(f=> f.IdUser),
                 j=>
                 {
                     j.ToTable("userRol");
-                    j.HasKey(t=> new {t.UserId, t.RolId});
+                    j.HasKey(t=> new {t.IdRol, t.IdUser});
                 }
             );
 
