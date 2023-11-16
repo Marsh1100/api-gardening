@@ -90,12 +90,12 @@ public class ProducttypeController : ApiBaseController
 
     public async Task<IActionResult> Delete(int id)
     {
-        var result = await _unitOfWork.Users.GetByIdAsync(id);
+        var result = await _unitOfWork.Producttypes.GetByIdAsync(id);
         if(result == null)
         {
             return NotFound();
         }
-        this._unitOfWork.Users.Remove(result);
+        this._unitOfWork.Producttypes.Remove(result);
         await this._unitOfWork.SaveAsync();
         return NoContent();
     }

@@ -90,12 +90,12 @@ public class OfficeController : ApiBaseController
 
     public async Task<IActionResult> Delete(int id)
     {
-        var result = await _unitOfWork.Users.GetByIdAsync(id);
+        var result = await _unitOfWork.Offices.GetByIdAsync(id);
         if(result == null)
         {
             return NotFound();
         }
-        this._unitOfWork.Users.Remove(result);
+        this._unitOfWork.Offices.Remove(result);
         await this._unitOfWork.SaveAsync();
         return NoContent();
     }

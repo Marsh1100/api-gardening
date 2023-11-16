@@ -90,12 +90,12 @@ public class RequestController : ApiBaseController
 
     public async Task<IActionResult> Delete(int id)
     {
-        var result = await _unitOfWork.Users.GetByIdAsync(id);
+        var result = await _unitOfWork.Requests.GetByIdAsync(id);
         if(result == null)
         {
             return NotFound();
         }
-        this._unitOfWork.Users.Remove(result);
+        this._unitOfWork.Requests.Remove(result);
         await this._unitOfWork.SaveAsync();
         return NoContent();
     }
