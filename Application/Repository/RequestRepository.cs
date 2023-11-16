@@ -28,6 +28,22 @@ public class RequestRepository : GenericRepository<Request>, IRequest
         return (totalRegistros, registros);
     }
 
+    //10
+    public async Task<IEnumerable<Request>> GetRequestEarly()
+    {
+        FormattableString sql = $"SELECT  * FROM request WHERE ADDDATE(expectedDate, INTERVAL -2 day ) >= deliveryDate";
+        return await _context.Requests.FromSql(sql).ToListAsync();
+    }
+
+    //9.
+    public async Task<IEnumerable<Request>> GetRequestLate()
+    {
+        FormattableString sql = $"SELECT  * FROM request WHERE deliveryDate > expectedDate";
+        return await _context.Requests.FromSql(sql).ToListAsync();
+   
+    }
+
+    //2
     public async Task<IEnumerable<object>> GetStates()
     {
         var states = await _context.Requests

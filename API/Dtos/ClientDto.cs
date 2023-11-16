@@ -25,3 +25,12 @@ public class ClientDto
     public decimal? CreditLimit { get; set; }
     
 }
+
+
+public class ClientIdDto
+{
+    public int Id { get; set; }
+
+}
+
+

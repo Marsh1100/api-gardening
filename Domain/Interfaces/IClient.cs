@@ -6,4 +6,5 @@ public interface IClient : IGenericRepository<Client>
 { 
     
     Task<Client> GetSpanishClients();
+    Task<IEnumerable<Client>> GetClientsPay2008();
 }

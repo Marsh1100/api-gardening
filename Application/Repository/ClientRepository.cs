@@ -28,6 +28,17 @@ public class ClientRepository : GenericRepository<Client>, IClient
         return (totalRegistros, registros);
     }
 
+    //3
+    public async Task<IEnumerable<Client>> GetClientsPay2008()
+    {
+        var clients = await (from client in _context.Clients
+                            join payment in _context.Payments on client.Id equals payment.IdClient
+                            where payment.PaymentDate.Year == 2008
+                            select client).Distinct().ToListAsync();
+        return clients;
+    }
+
+    //1
     public async Task<Client> GetSpanishClients()
     {
         FormattableString sql = $"SELECT * FROM gardening.client WHERE client.country = 'Spain'";

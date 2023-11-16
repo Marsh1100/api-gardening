@@ -112,6 +112,17 @@ public class ClientController : ApiBaseController
     }
 
 
+    //3.Devuelve un listado con el código de cliente de aquellos clientes que realizaron algún pago en 2008. Tenga en cuenta que deberá eliminar aquellos códigos de cliente que aparezcan repetidos.
+    [HttpGet("clientsPay2008")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> GetClientsPay2008()
+    {
+        var result = await _unitOfWork.Clients.GetClientsPay2008();
+        return Ok(_mapper.Map<IEnumerable<ClientIdDto>>(result));
+    }
+
    
     
 }

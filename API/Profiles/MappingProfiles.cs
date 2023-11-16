@@ -37,8 +37,11 @@ public class MappingProfiles : Profile
         CreateMap<Requestdetail, RequestdetailDto>()
             .ReverseMap();
 
-        CreateMap<Request, ResquestStatesDto>()
-            .ForMember(dest=>dest.State_request, origen=> origen.MapFrom(origen=> origen.State))
+        CreateMap<Request, ResquestLateDto>()
+            .ForMember(dest=>dest.CodeRequest, origen=> origen.MapFrom(origen=> origen.Id))
+            .ForMember(dest=>dest.CodeClient, origen=> origen.MapFrom(origen=> origen.IdClient))
+            .ReverseMap();
+        CreateMap<Client, ClientIdDto>()
             .ReverseMap();
         
     }

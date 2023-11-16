@@ -19,8 +19,14 @@ public class RequestDto
     public int IdClient { get; set; }
 }
 
-public class ResquestStatesDto
+public class ResquestLateDto
 {
-    public string State_request { get; set; }
+    public int CodeRequest { get; set; }
+
+    public int CodeClient { get; set; }
+
+    public DateOnly ExpectedDate { get; set; }
+    public DateOnly DeliveryDate { get; set; }
+
 
 }

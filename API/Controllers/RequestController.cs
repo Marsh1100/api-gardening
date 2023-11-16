@@ -111,5 +111,28 @@ public class RequestController : ApiBaseController
         return Ok(result);
     }
    
+    //9.Devuelve un listado con el código de pedido, código de cliente, fecha esperada y fecha de entrega de los pedidos que no han sido entregados a tiempo.
+    [HttpGet("requestLate")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<ResquestLateDto>>> GetRequestLate()
+    {
+        var result = await _unitOfWork.Requests.GetRequestLate();
+        return _mapper.Map<List<ResquestLateDto>>(result);
+    }
+
+    //10.Devuelve un listado con el código de pedido, código de cliente, fecha esperada y fecha de entrega de los pedidos cuya fecha de entrega ha sido al menos dos días antes de la fecha esperada.
+    [HttpGet("requestEarly")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<ResquestLateDto>>> GetRequestEarly()
+    {
+        var result = await _unitOfWork.Requests.GetRequestEarly();
+        return _mapper.Map<List<ResquestLateDto>>(result);
+    }
+
+
     
 }
