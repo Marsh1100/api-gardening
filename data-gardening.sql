@@ -1,4 +1,5 @@
 /*DATA GARDENING*/
+USE gardening;
 
 INSERT INTO office VALUES 
 (1, 'BCN-ES', 'Barcelona', 'España', 'Barcelona', '08019', '+34 93 3561182', 'Avenida Diagonal, 38', '3A escalera Derecha'),
