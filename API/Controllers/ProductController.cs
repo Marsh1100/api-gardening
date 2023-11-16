@@ -15,13 +15,13 @@ namespace API.Controllers;
 [ApiVersion("1.0")]
 [ApiVersion("1.1")]
 
-public class ClientController : ApiBaseController
+public class ProductController : ApiBaseController
 {
     private readonly IUserService _userService;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
 
-    public ClientController(IUserService userService, IUnitOfWork unitOfWork, IMapper mapper)
+    public ProductController(IUserService userService, IUnitOfWork unitOfWork, IMapper mapper)
     {
         _userService = userService;
         _unitOfWork = unitOfWork;
@@ -32,40 +32,30 @@ public class ClientController : ApiBaseController
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
 
-    public async Task<ActionResult<IEnumerable<ClientDto>>> Get()
+    public async Task<ActionResult<IEnumerable<ProductDto>>> Get()
     {
-        var results = await _unitOfWork.Clients.GetAllAsync();
-        return _mapper.Map<List<ClientDto>>(results);
-    }
-    [HttpGet("resultsWithRoles")]
-    [MapToApiVersion("1.0")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-
-    public async Task<ActionResult<IEnumerable<UserAllDto>>> GetUserWithRoles()
-    {
-        var results = await _unitOfWork.Clients.GetAllAsync();
-        return _mapper.Map<List<UserAllDto>>(results);
+        var results = await _unitOfWork.Products.GetAllAsync();
+        return _mapper.Map<List<ProductDto>>(results);
     }
     [HttpGet]
     [MapToApiVersion("1.1")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<Pager<ClientDto>>> GetPagination([FromQuery] Params p)
+    public async Task<ActionResult<Pager<ProductDto>>> GetPagination([FromQuery] Params p)
     {
-        var results = await _unitOfWork.Clients.GetAllAsync(p.PageIndex, p.PageSize, p.Search);
-        var resultsDto = _mapper.Map<List<ClientDto>>(results.registros);
-        return  new Pager<ClientDto>(resultsDto,results.totalRegistros, p.PageIndex, p.PageSize, p.Search);
+        var results = await _unitOfWork.Products.GetAllAsync(p.PageIndex, p.PageSize, p.Search);
+        var resultsDto = _mapper.Map<List<ProductDto>>(results.registros);
+        return  new Pager<ProductDto>(resultsDto,results.totalRegistros, p.PageIndex, p.PageSize, p.Search);
     }
 
     [HttpPost()]
     [MapToApiVersion("1.0")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<ClientDto>> Post([FromBody] ClientDto dto)
+    public async Task<ActionResult<ProductDto>> Post([FromBody] ProductDto dto)
     {
-        var result = _mapper.Map<Client>(dto);
-        this._unitOfWork.Clients.Add(result);
+        var result = _mapper.Map<Product>(dto);
+        this._unitOfWork.Products.Add(result);
         await _unitOfWork.SaveAsync();
 
 
@@ -82,11 +72,11 @@ public class ClientController : ApiBaseController
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
 
-    public async Task<ActionResult<ClientDto>> put(ClientDto dto)
+    public async Task<ActionResult<ProductDto>> put(ProductDto dto)
     {
         if(dto == null){ return NotFound(); }
-        var result = this._mapper.Map<Client>(dto);
-        this._unitOfWork.Clients.Update(result);
+        var result = this._mapper.Map<Product>(dto);
+        this._unitOfWork.Products.Update(result);
         Console.WriteLine(await this._unitOfWork.SaveAsync());
         return Ok(result);
     }
