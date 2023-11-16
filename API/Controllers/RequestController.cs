@@ -132,7 +132,17 @@ public class RequestController : ApiBaseController
         var result = await _unitOfWork.Requests.GetRequestEarly();
         return _mapper.Map<List<ResquestLateDto>>(result);
     }
-
+    
+    //11.Devuelve un listado de todos los pedidos que fueron rechazados en 2009.
+    [HttpGet("requestReject")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<ResquestLateDto>>> GetRequestReject()
+    {
+        var result = await _unitOfWork.Requests.GetRequestReject();
+        return _mapper.Map<List<ResquestLateDto>>(result);
+    }
 
     
 }

@@ -48,7 +48,7 @@ menos dos días antes de la fecha esperada.
 • Utilizando la función DATEDIFF de MySQL.
 • ¿Sería posible resolver esta consulta utilizando el operador de suma + o
 resta -?
-*/
+
 SELECT id, idClient, expectedDate, deliveryDate
 FROM request
 WHERE ADDDATE(expectedDate, INTERVAL -2 day ) >= deliveryDate;
@@ -56,6 +56,8 @@ WHERE ADDDATE(expectedDate, INTERVAL -2 day ) >= deliveryDate;
 SELECT id, idClient, expectedDate, deliveryDate
 FROM request
 WHERE DATEDIFF(expectedDate, deliveryDate ) >= 2;
+
+-- 11. Devuelve un listado de todos los pedidos que fueron rechazados en 2009.
 
 
 
