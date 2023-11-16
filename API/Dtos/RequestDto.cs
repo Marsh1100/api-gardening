@@ -18,3 +18,9 @@ public class RequestDto
 
     public int IdClient { get; set; }
 }
+
+public class ResquestStatesDto
+{
+    public string State_request { get; set; }
+
+}

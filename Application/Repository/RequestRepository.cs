@@ -28,6 +28,12 @@ public class RequestRepository : GenericRepository<Request>, IRequest
         return (totalRegistros, registros);
     }
 
-    
-
+    public async Task<IEnumerable<object>> GetStates()
+    {
+        var states = await _context.Requests
+                        .Select(a=> a.State)
+                        .Distinct()
+                        .ToListAsync();
+        return states;
+    }
 }

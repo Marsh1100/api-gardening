@@ -4,6 +4,6 @@ namespace Domain.Interfaces;
 
 public interface IRequest : IGenericRepository<Request> 
 { 
-    
+    Task<IEnumerable<object>> GetStates(); 
 
 }

@@ -28,6 +28,16 @@ public class ClientRepository : GenericRepository<Client>, IClient
         return (totalRegistros, registros);
     }
 
-    
+    public async Task<Client> GetSpanishClients()
+    {
+        FormattableString sql = $"SELECT * FROM gardening.client WHERE client.country = 'Spain'";
+        var clients = await _context.Clients.FromSql(sql).FirstOrDefaultAsync();
+        return clients;
+    }
+
+   
+
+
+
 
 }

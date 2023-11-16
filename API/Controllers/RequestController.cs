@@ -100,6 +100,16 @@ public class RequestController : ApiBaseController
         return NoContent();
     }
 
+    //2.Devuelve un listado con los distintos estados por los que puede pasar un pedido
+    [HttpGet("states")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> GetStates()
+    {
+        var result = await _unitOfWork.Requests.GetStates();
+        return Ok(result);
+    }
    
     
 }

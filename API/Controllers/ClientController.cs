@@ -100,6 +100,18 @@ public class ClientController : ApiBaseController
         return NoContent();
     }
 
+    //1.Devuelve un listado con el nombre de los todos los clientes españoles.
+    [HttpGet("spanishClients")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> GetSpanishClients()
+    {
+        var result = await _unitOfWork.Clients.GetSpanishClients();
+        return Ok(_mapper.Map<ClientDto>(result));
+    }
+
+
    
     
 }
