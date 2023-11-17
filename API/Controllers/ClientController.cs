@@ -165,4 +165,15 @@ public class ClientController : ApiBaseController
         var result = await _unitOfWork.Clients.GetClientsRequestWithoutPayments();
         return Ok(_mapper.Map<IEnumerable<ClientDto>>(result));
     }
+
+    //Resume 9.Calcula la fecha del primer y último pago realizado por cada uno de los clientes. El listado deberá mostrar el nombre y los apellidos de cada cliente.
+    [HttpGet("clientsPaymentsDate")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> GetClientsDatePayments()
+    {
+        var result = await _unitOfWork.Clients.GetClientsDatePayments();
+        return Ok(result);
+    }
 }

@@ -9,4 +9,6 @@ public interface IRequest : IGenericRepository<Request>
     Task<IEnumerable<Request>> GetRequestEarly();
     Task<IEnumerable<Request>> GetRequestReject();
     Task<IEnumerable<Request>> GetRequestDelivered();
+
+    Task<IEnumerable<object>> GetQuantityProducts();
 }

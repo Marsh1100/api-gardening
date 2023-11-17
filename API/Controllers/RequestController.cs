@@ -154,5 +154,17 @@ public class RequestController : ApiBaseController
         var result = await _unitOfWork.Requests.GetRequestDelivered();
         return _mapper.Map<List<RequestDto>>(result);
     }
+
+    //Resume 10.Calcula el número de productos diferentes que hay en cada uno de los pedidos.
+
+    [HttpGet("quantityProducts")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> GetQuantityProducts()
+    {
+        var result = await _unitOfWork.Requests.GetQuantityProducts();
+        return Ok(result);
+    }
     
 }

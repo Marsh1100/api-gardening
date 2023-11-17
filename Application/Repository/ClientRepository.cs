@@ -84,10 +84,22 @@ public class ClientRepository : GenericRepository<Client>, IClient
                 select client).Distinct();
     
     }
+    //resume 9
+    public async Task<IEnumerable<object>> GetClientsDatePayments()
+    {
+        var clients = await _context.Clients.ToListAsync();
+        var payments = await _context.Payments.ToListAsync();
 
-   
+        return (from client in clients
+                        join payment in payments on client.Id equals  payment.IdClient
+                        select client)
+                        .GroupBy(a=> a.Id)
+                        .Select(s=> new {
+                           Client =  s.Select(d=> d.NameContact).Distinct(),
+                           FirstPayment = s.Select(o=> o.Payments.Min(u=>u.PaymentDate)).FirstOrDefault(),
+                           SecondPayment = s.Select(o=> o.Payments.Max(u=>u.PaymentDate)).FirstOrDefault()
+                        });
+    }
 
-
-
-
+    //resume 10
 }

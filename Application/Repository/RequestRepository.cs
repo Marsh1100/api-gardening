@@ -1,6 +1,7 @@
 using Domain.Entities;
 using Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using Persistence;
 using Persistence.Data;
 namespace Application.Repository;
@@ -63,5 +64,21 @@ public class RequestRepository : GenericRepository<Request>, IRequest
                         .Distinct()
                         .ToListAsync();
         return states;
+    }
+    //resumo 10
+    public async Task<IEnumerable<object>> GetQuantityProducts()
+    {
+        var products = await _context.Products.ToListAsync();
+        var requestdetails = await _context.Requestdetails.ToListAsync();
+        var requests =  await _context.Requests.ToListAsync();
+
+        return from request in requests
+                join requestdetail in requestdetails on request.Id equals requestdetail.IdRequest
+                join product in products on requestdetail.IdProduct equals product.Id
+                group  requestdetail by requestdetail.IdRequest into newRequests
+                select new {
+                    Id_Request = newRequests.Key,
+                    Quantity_products = newRequests.Select(a=>a.IdProduct).Count()
+                };
     }
 }
