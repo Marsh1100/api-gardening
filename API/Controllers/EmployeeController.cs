@@ -86,8 +86,6 @@ public class EmployeeController : ApiBaseController
     [MapToApiVersion("1.0")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-
-
     public async Task<IActionResult> Delete(int id)
     {
         var result = await _unitOfWork.Employees.GetByIdAsync(id);
@@ -98,6 +96,28 @@ public class EmployeeController : ApiBaseController
         this._unitOfWork.Employees.Remove(result);
         await this._unitOfWork.SaveAsync();
         return NoContent();
+    }
+
+    //CE 3. Devuelve un listado que muestre solamente los empleados que no tienen un cliente asociado junto con los datos de la oficina donde trabajan.
+    [HttpGet("employeesWithoutClients")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> GetEmployeesWithoutClients()
+    {
+        var result = await _unitOfWork.Employees.GetEmployeesWithoutClients();
+        return Ok(result);
+    }
+
+    //CE 4.Devuelve un listado que muestre los empleados que no tienen una oficina asociada y los que no tienen un cliente asociado.
+    [HttpGet("employeesWithoutClientsAndOffice")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> GetEmployeesWithoutClientsAndOffice()
+    {
+        var result = await _unitOfWork.Employees.GetEmployeesWithoutClientsAndOffice();
+        return Ok(result);
     }
 
    

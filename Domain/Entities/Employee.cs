@@ -15,7 +15,7 @@ public partial class Employee : BaseEntity
 
     public string Email { get; set; }
 
-    public int IdOffice { get; set; }
+    public int? IdOffice { get; set; }
 
     public int? IdBoss { get; set; }
 

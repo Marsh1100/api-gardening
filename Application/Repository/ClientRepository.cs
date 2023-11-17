@@ -54,6 +54,22 @@ public class ClientRepository : GenericRepository<Client>, IClient
         
     }
 
+    //CE 1
+    public async Task<IEnumerable<Client>> GetClientsWithoutPayments()
+    {
+        FormattableString sql = $"SELECT client.id, client.nameClient, client.nameContact, client.lastnameContact, client.phoneNumber, client.fax, client.address1, client.address2, client.city, client.region, client.country, client.zipCode, client.idEmployee, client.creditLimit FROM client LEFT JOIN payment ON client.id = payment.idClient WHERE payment.idClient IS NULL";
+        return await _context.Clients.FromSql(sql).ToListAsync();
+        
+    }
+
+    //CE 2
+    public async Task<IEnumerable<Client>> GetClientsWithoutPaymentsANDrequest()
+    {
+        FormattableString sql = $"SELECT client.id, client.nameClient, client.nameContact, client.lastnameContact, client.phoneNumber, client.fax,  client.address1, client.address2, client.city, client.region, client.country, client.zipCode, client.idEmployee, client.creditLimit FROM client LEFT JOIN payment ON client.id = payment.idClient LEFT JOIN request ON client.id = request.idClient WHERE payment.idClient IS NULL AND request.idClient IS NULL";
+        return await _context.Clients.FromSql(sql).ToListAsync();
+        
+    }
+
    
 
 
