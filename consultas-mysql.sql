@@ -86,7 +86,7 @@ Ornamentales y que tienen más de 100 unidades en stock. El listado  deberá
 estar ordenado por su precio de venta, mostrando en primer lugar los de mayor 
 precio.*/
 
-SELECT * 
+SELECT product.id, product.productCode, product.name 
 FROM product
 INNER JOIN producttype ON product.idProductType = producttype.id
 WHERE producttype.type = 'Ornamentales' AND product.stock>100 
@@ -98,3 +98,66 @@ cuyo representante de ventas tenga el código de empleado 11 o 30 */
 SELECT * 
 FROM client
 WHERE city = 'Madrid' AND (idEmployee= 11 OR idEmployee = 30);
+
+-- 1.4.6 Consultas multitabla (Composición externa)
+/*CE 1.Devuelve un listado que muestre solamente los clientes que no han
+realizado ningún pago.*/
+SELECT client.id, client.nameClient, client.nameContact, client.lastnameContact, client.phoneNumber, client.fax, 
+client.address1, client.address2, client.city, client.region, client.country, client.zipCode, client.idEmployee, client.creditLimit
+FROM client
+LEFT JOIN payment ON client.id = payment.idClient
+WHERE payment.idClient IS NULL;
+
+/*CE 2.Devuelve un listado que muestre los clientes que no han realizado ningún
+pago y los que no han realizado ningún pedido*/
+SELECT client.id, client.nameClient, client.nameContact, client.lastnameContact, client.phoneNumber, client.fax, 
+client.address1, client.address2, client.city, client.region, client.country, client.zipCode, client.idEmployee, client.creditLimit
+FROM client
+LEFT JOIN payment ON client.id = payment.idClient
+LEFT JOIN request ON client.id = request.idClient
+WHERE payment.idClient IS NULL AND request.idClient IS NULL;
+
+/*CE 3.Devuelve un listado que muestre solamente los empleados que no tienen un
+cliente asociado junto con los datos de la oficina donde trabajan. */
+
+SELECT DISTINCT employee.id,CONCAT(employee.name," ", employee.firstSurname," ",employee.secondSurname) AS empleado, client.nameClient,
+office.officineCode, office.city, office.region, office.zipCode, office.phone, office.address1, office.address2
+FROM employee
+LEFT JOIN client ON employee.id = client.idEmployee
+INNER JOIN office ON employee.idOffice = office.id
+WHERE client.Id IS NULL;
+
+/*CE 4.Devuelve un listado que muestre los empleados que no tienen una oficina
+asociada y los que no tienen un cliente asociado. */
+
+SELECT DISTINCT employee.id,CONCAT(employee.name," ", employee.firstSurname," ",employee.secondSurname) AS empleado
+FROM employee
+LEFT JOIN client ON employee.id = client.idEmployee
+LEFT JOIN office ON employee.idOffice = office.id
+WHERE client.Id IS NULL AND employee.idOffice IS NULL;
+
+/* CE 5.Devuelve un listado de los productos que nunca han aparecido en un
+pedido.*/
+SELECT product.id, product.productCode, product.name, product.idProductType, product.dimensions, product.provider,
+product.description, product.stock, product.salePrice, product.providerPrice
+FROM product
+LEFT JOIN requestdetail ON product.id = requestdetail.idProduct
+WHERE requestdetail.id IS NULL;
+
+/*CE 6.Devuelve un listado de los productos que nunca han aparecido en un pedido. 
+El resultado debe mostrar el nombre, la descripción y la imagen del producto.*/
+SELECT  product.name, producttype.type, producttype.descriptionText, producttype.image
+FROM product
+LEFT JOIN requestdetail ON product.id = requestdetail.idProduct
+INNER JOIN producttype ON product.idProductType = producttype.id
+WHERE requestdetail.id IS NULL;
+
+/*CE 7.Devuelve las oficinas donde no trabajan ninguno de los empleados que
+hayan sido los representantes de ventas de algún cliente que haya realizado
+la compra de algún producto de la gama Frutales.*/
+
+/*CE 8.Devuelve un listado con los clientes que han realizado algún pedido pero no 
+han realizado ningún pago.*/
+
+/*CE 9.Devuelve un listado con los datos de los empleados que no tienen clientes 
+asociados y el nombre de su jefe asociado*/
