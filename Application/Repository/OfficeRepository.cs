@@ -28,6 +28,36 @@ public class OfficeRepository : GenericRepository<Office>, IOffice
         return (totalRegistros, registros);
     }
 
-    
+    //CE7 
+    public async Task<IEnumerable<object>> GetOfficesWithoutEmployee()
+    {
+        var employees = await _context.Employees.ToListAsync();
+        var offices = await _context.Offices.ToListAsync();
+        var clients =  await _context.Clients.ToListAsync();
+        var requesdetails =await _context.Requestdetails.ToListAsync();
+        var requests =await _context.Requests.ToListAsync();
+        var products = await _context.Products.ToListAsync(); 
+        var producttypes = await _context.Producttypes.ToListAsync();
 
+        return  (from employee in employees
+                join office in offices on employee.IdOffice equals office.Id 
+                join client in clients on employee.Id equals client.IdEmployee
+                join request in requests on client.Id equals request.IdClient
+                join requesdetail in requesdetails on request.Id equals requesdetail.IdRequest
+                join product in products on requesdetail.IdProduct equals product.Id
+                join producttype in producttypes on product.IdProductType equals producttype.Id
+                where producttype.Type != "Frutales"  
+                select new {
+                    office.Id,
+                    office.OfficineCode,
+                    office.City,
+                    office.Country,
+                    office.Region,
+                    office.ZipCode,
+                    office.Phone,
+                    office.Address1,
+                    office.Address2
+                }).Distinct();
+    
+    }
 }

@@ -108,7 +108,26 @@ public class ProductController : ApiBaseController
         return _mapper.Map<List<ProductTypeDto>>(result);
     }
 
+    //CE 5.Devuelve un listado de los productos que nunca han aparecido en un pedido.
+    [HttpGet("productsWithoutRequest")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<ProductDto>>> GetProductsWithoutRequest()
+    {
+        var result = await _unitOfWork.Products.GetProductsWithoutRequest();
+        return  _mapper.Map<List<ProductDto>>(result);
+    }
 
-   
+    //CE 6.Devuelve un listado de los productos que nunca han aparecido en un pedido. El resultado debe mostrar el nombre, la descripción y la imagen del producto.
+    [HttpGet("productsWithoutRequest2")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<object>>> GetProductsWithoutRequest2()
+    {
+        var result = await _unitOfWork.Products.GetProductsWithoutRequest2();
+        return  Ok(result);
+    }
     
 }

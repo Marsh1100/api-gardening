@@ -45,4 +45,3 @@ public class ProductTypeDto
     public decimal? ProviderPrice { get; set; }
     
 }
-

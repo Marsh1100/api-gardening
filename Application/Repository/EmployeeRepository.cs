@@ -29,6 +29,25 @@ public class EmployeeRepository : GenericRepository<Employee>, IEmployee
                             .ToListAsync();
         return (totalRegistros, registros);
     }
+    
+    //CE 9
+
+    public async Task<IEnumerable<object>> GetEmployeesBossWithoutClients()
+    {
+        var employees = await _context.Employees.ToListAsync();
+        
+        return from emp in employees
+                join empBoss in employees on emp.IdBoss equals empBoss.Id into h
+                from all in h.DefaultIfEmpty()
+                select new 
+                {
+                    empleado = emp.Name+" "+emp.FirstSurname+" "+emp.SecondSurname,
+                    jefe = all?.Name
+                };
+
+
+    }
+
     //ce 3
 
     public async Task<IEnumerable<object>> GetEmployeesWithoutClients()

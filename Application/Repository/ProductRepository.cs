@@ -36,4 +36,36 @@ public class ProductRepository : GenericRepository<Product>, IProduct
                                 select product).OrderByDescending(a=> a.Stock).ToListAsync();
     
     }
+
+    //CE 5
+    public async Task<IEnumerable<Product>> GetProductsWithoutRequest()
+    {
+        var products = await _context.Products.ToListAsync();
+        var requestdetails =  await _context.Requestdetails.ToListAsync();
+        return  from product in products
+                join requesdetail in requestdetails on product.Id equals requesdetail.IdProduct into h
+                from all in h.DefaultIfEmpty()
+                where all?.Id == null
+                select product;
+    }
+    //CE 6
+    public async Task<IEnumerable<object>> GetProductsWithoutRequest2()
+    {
+        var products = await _context.Products.ToListAsync();
+        var producttypes = await _context.Producttypes.ToListAsync();
+        var requestdetails =  await _context.Requestdetails.ToListAsync();
+        return  (from product in products
+                join requesdetail in requestdetails on product.Id equals requesdetail.IdProduct into h
+                join producttype in producttypes on product.IdProductType equals producttype.Id
+                from all in h.DefaultIfEmpty()
+                where all?.Id == null
+                select new {
+                    product = product.Name,
+                    type = producttype.Type,
+                    producttype.DescriptionText,
+                    producttype.Image
+
+                });
+    
+    }
 }

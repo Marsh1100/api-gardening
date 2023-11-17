@@ -155,5 +155,14 @@ public class ClientController : ApiBaseController
         var result = await _unitOfWork.Clients.GetClientsWithoutPaymentsANDrequest();
         return Ok(_mapper.Map<IEnumerable<ClientDto>>(result));
     }
-    
+     //CE 8.Devuelve un listado con los clientes que han realizado algún pedido pero no han realizado ningún pago.
+    [HttpGet("clientsRequestWithoutPayments")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> GetClientsRequestWithoutPayments()
+    {
+        var result = await _unitOfWork.Clients.GetClientsRequestWithoutPayments();
+        return Ok(_mapper.Map<IEnumerable<ClientDto>>(result));
+    }
 }

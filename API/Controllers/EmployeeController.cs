@@ -120,6 +120,16 @@ public class EmployeeController : ApiBaseController
         return Ok(result);
     }
 
+    //CE 9.Devuelve un listado con los datos de los empleados que no tienen clientes asociados y el nombre de su jefe asociado
+    [HttpGet("employeesBossWithoutClients")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> GetEmployeesBossWithoutClients()
+    {
+        var result = await _unitOfWork.Employees.GetEmployeesBossWithoutClients();
+        return Ok(result);
+    }
    
     
 }

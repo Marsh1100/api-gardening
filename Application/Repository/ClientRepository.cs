@@ -70,6 +70,21 @@ public class ClientRepository : GenericRepository<Client>, IClient
         
     }
 
+    //CE 8
+    public async Task<IEnumerable<object>> GetClientsRequestWithoutPayments()
+    {
+        var clients = await _context.Clients.ToListAsync();
+        var payments = await _context.Payments.ToListAsync();
+        var requests =  await _context.Requests.ToListAsync();
+        return  (from client in clients
+                join request in requests on client.Id equals request.IdClient 
+                join payment in payments on client.Id equals payment.IdClient into h
+                from all in h.DefaultIfEmpty()
+                where all?.IdClient == null
+                select client).Distinct();
+    
+    }
+
    
 
 

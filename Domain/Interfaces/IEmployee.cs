@@ -7,4 +7,5 @@ public interface IEmployee : IGenericRepository<Employee>
     Task<IEnumerable<object>> GetEmployeesWithoutClientsAndOffice();
 
     Task<IEnumerable<object>> GetEmployeesWithoutClients();
+    Task<IEnumerable<object>> GetEmployeesBossWithoutClients();
 }

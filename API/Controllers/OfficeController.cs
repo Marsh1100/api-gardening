@@ -100,6 +100,16 @@ public class OfficeController : ApiBaseController
         return NoContent();
     }
 
+    //CE 7.Devuelve las oficinas donde no trabajan ninguno de los empleados que hayan sido los representantes de ventas de algún cliente que haya realizado la compra de algún producto de la gama Frutales.
+    [HttpGet("officesWithoutEmployee")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<object>>> GetOfficesWithoutEmployee()
+    {
+        var result = await _unitOfWork.Offices.GetOfficesWithoutEmployee();
+        return  Ok(result);
+    }
    
     
 }
