@@ -159,5 +159,35 @@ la compra de algún producto de la gama Frutales.*/
 /*CE 8.Devuelve un listado con los clientes que han realizado algún pedido pero no 
 han realizado ningún pago.*/
 
+-- 1.4.7 Resumen (Composición externa)
 /*CE 9.Devuelve un listado con los datos de los empleados que no tienen clientes 
 asociados y el nombre de su jefe asociado*/
+SELECT CONCAT(emp.name," ", emp.firstSurname," ",emp.secondSurname) AS employee, IF(empBoss.name is null, 'No tiene jefe', empBoss.name) AS boss
+FROM employee emp
+LEFT JOIN employee empBoss ON emp.idBoss = empBoss.id
+LEFT JOIN client ON emp.id = client.idEmployee
+WHERE client.id IS NULL;
+
+/*Resumen 9. Calcula la fecha del primer y último pago realizado por cada uno de los 
+clientes. El listado deberá mostrar el nombre y los apellidos de cada cliente. */
+/*secondpayment.paymentDate AS second_payment*/
+SELECT CONCAT(client.nameContact," ", client.lastnameContact) AS cliente,MIN(payment.paymentDate) AS first_payment ,MAX(payment.paymentDate) AS second_payment
+FROM client
+JOIN payment ON client.id = payment.idClient
+GROUP BY client.id;
+
+/*Resumen 10.Calcula el número de productos diferentes que hay en cada uno de los
+pedidos.*/
+SELECT request.id AS id_request, COUNT(DISTINCT requestdetail.idProduct ) AS cantidad_productos
+FROM request
+INNER JOIN requestdetail ON request.id = requestdetail.idRequest
+INNER JOIN product ON requestdetail.idProduct = product.id
+GROUP BY requestdetail.idRequest;
+
+
+
+
+
+
+
+
