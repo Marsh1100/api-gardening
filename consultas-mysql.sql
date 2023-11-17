@@ -47,7 +47,7 @@ menos dos días antes de la fecha esperada.
 • Utilizando la función ADDDATE de MySQL.
 • Utilizando la función DATEDIFF de MySQL.
 • ¿Sería posible resolver esta consulta utilizando el operador de suma + o
-resta -?
+resta -?*/
 
 SELECT id, idClient, expectedDate, deliveryDate
 FROM request
@@ -58,6 +58,43 @@ FROM request
 WHERE DATEDIFF(expectedDate, deliveryDate ) >= 2;
 
 -- 11. Devuelve un listado de todos los pedidos que fueron rechazados en 2009.
+SELECT * 
+FROM request
+WHERE state = 'Rechazado' AND YEAR(requestDate) = 2009;
 
+-- 12. Devuelve un listado de todos los pedidos que han sido entregados en el mes de enero de cualquier año.
+SELECT * 
+FROM request
+WHERE state = 'Entregado' AND DATE_FORMAT(requestDate, '%m') = 01;
 
+/* 13. Devuelve un listado con todos los pagos que se realizaron en el 
+año 2008 mediante Paypal. Ordene el resultado de mayor a menor*/
+SELECT * 
+FROM payment
+WHERE paymentMethod = 'PayPal' AND DATE_FORMAT(paymentDate , '%Y') = 2008
+ORDER BY total DESC;
 
+/*14.  Devuelve un listado con todas las formas de pago que aparecen en la 
+tabla pago. Tenga en cuenta que no deben aparecer formas de pago 
+repetidas*/
+SELECT paymentMethod
+FROM payment
+GROUP BY paymentMethod;
+
+/*15.  Devuelve un listado con todos los productos que pertenecen a la gama 
+Ornamentales y que tienen más de 100 unidades en stock. El listado  deberá 
+estar ordenado por su precio de venta, mostrando en primer lugar los de mayor 
+precio.*/
+
+SELECT * 
+FROM product
+INNER JOIN producttype ON product.idProductType = producttype.id
+WHERE producttype.type = 'Ornamentales' AND product.stock>100 
+ORDER BY product.salePrice DESC;
+
+/*16. Devuelve un listado con todos los clientes que sean de la ciudad de Madrid y 
+cuyo representante de ventas tenga el código de empleado 11 o 30 */
+
+SELECT * 
+FROM client
+WHERE city = 'Madrid' AND (idEmployee= 11 OR idEmployee = 30);
