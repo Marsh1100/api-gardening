@@ -100,7 +100,27 @@ public class PaymentController : ApiBaseController
         return NoContent();
     }
 
+    //13.  Devuelve un listado con todos los pagos que se realizaron en el año 2008 mediante Paypal. Ordene el resultado de mayor a menor
+    [HttpGet("payment2008")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<PaymentDto>>> GetPayment2008()
+    {
+        var result = await _unitOfWork.Payments.GetPayment2008();
+        return _mapper.Map<List<PaymentDto>>(result);
+    }
 
+    //14.  Devuelve un listado con todas las formas de pago que aparecen en la  tabla pago. Tenga en cuenta que no deben aparecer formas de pago repetidas.
+    [HttpGet("paymentMethod")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> GetPaymentMethod()
+    {
+        var result = await _unitOfWork.Payments.GetPaymentMethod();
+        return Ok(result);
+    }
 
    
     

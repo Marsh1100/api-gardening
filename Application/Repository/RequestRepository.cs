@@ -27,6 +27,18 @@ public class RequestRepository : GenericRepository<Request>, IRequest
                             .ToListAsync();
         return (totalRegistros, registros);
     }
+    //12
+    public async Task<IEnumerable<Request>> GetRequestDelivered()
+    {
+        FormattableString sql = $"SELECT  * FROM request WHERE state = 'Entregado' AND DATE_FORMAT(requestDate, '%m') = 01";
+        return await _context.Requests.FromSql(sql).ToListAsync();
+    }
+    //11
+    public async Task<IEnumerable<Request>> GetRequestReject()
+    {
+        FormattableString sql = $"SELECT  * FROM request WHERE state = 'Rechazado' AND YEAR(requestDate) = 2009";
+        return await _context.Requests.FromSql(sql).ToListAsync();
+    }
 
     //10
     public async Task<IEnumerable<Request>> GetRequestEarly()

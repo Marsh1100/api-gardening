@@ -123,6 +123,16 @@ public class ClientController : ApiBaseController
         return Ok(_mapper.Map<IEnumerable<ClientIdDto>>(result));
     }
 
+    //16.Devuelve un listado con todos los clientes que sean de la ciudad de Madrid y cuyo representante de ventas tenga el código de empleado 11 o 30
+    [HttpGet("clientsMadrid")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> GetClientsMadrid()
+    {
+        var result = await _unitOfWork.Clients.GetClientsMadrid();
+        return Ok(_mapper.Map<IEnumerable<ClientDto>>(result));
+    }
    
     
 }

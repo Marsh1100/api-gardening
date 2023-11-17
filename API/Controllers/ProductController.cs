@@ -71,7 +71,6 @@ public class ProductController : ApiBaseController
     [MapToApiVersion("1.0")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-
     public async Task<ActionResult<ProductDto>> put(ProductDto dto)
     {
         if(dto == null){ return NotFound(); }
@@ -86,8 +85,6 @@ public class ProductController : ApiBaseController
     [MapToApiVersion("1.0")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-
-
     public async Task<IActionResult> Delete(int id)
     {
         var result = await _unitOfWork.Products.GetByIdAsync(id);
@@ -99,6 +96,18 @@ public class ProductController : ApiBaseController
         await this._unitOfWork.SaveAsync();
         return NoContent();
     }
+
+    //15.  Devuelve un listado con todos los productos que pertenecen a la gama Ornamentales y que tienen más de 100 unidades en stock. El listado  deberá estar ordenado por su precio de venta, mostrando en primer lugar los de mayor precio.
+    [HttpGet("productsOrnamentales")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<ProductTypeDto>>> GetProductsOrnamentales()
+    {
+        var result = await _unitOfWork.Products.GetProductsOrnamentales();
+        return _mapper.Map<List<ProductTypeDto>>(result);
+    }
+
 
    
     

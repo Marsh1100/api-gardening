@@ -25,3 +25,24 @@ public class ProductDto
     public decimal? ProviderPrice { get; set; }
     
 }
+
+
+public class ProductTypeDto
+{
+    public int Id { get; set; }
+    public string ProductCode { get; set; }
+    public string Name { get; set; }
+    public string ProductType { get; set; }
+
+    public string Dimensions { get; set; }
+
+    public string Provider { get; set; }
+
+    public string Description { get; set; }
+    public short Stock { get; set; }
+    public decimal SalePrice { get; set; }
+
+    public decimal? ProviderPrice { get; set; }
+    
+}
+

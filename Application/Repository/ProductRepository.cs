@@ -28,6 +28,12 @@ public class ProductRepository : GenericRepository<Product>, IProduct
         return (totalRegistros, registros);
     }
 
+    //15
+    public async Task<IEnumerable<Product>> GetProductsOrnamentales()
+    {
+        return await (from product in _context.Products
+                                join producttype in _context.Producttypes on product.IdProductType equals producttype.Id
+                                select product).OrderByDescending(a=> a.Stock).ToListAsync();
     
-
+    }
 }

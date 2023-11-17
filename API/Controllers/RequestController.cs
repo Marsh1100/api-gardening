@@ -138,11 +138,21 @@ public class RequestController : ApiBaseController
     [MapToApiVersion("1.0")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<IEnumerable<ResquestLateDto>>> GetRequestReject()
+    public async Task<ActionResult<IEnumerable<RequestDto>>> GetRequestReject()
     {
         var result = await _unitOfWork.Requests.GetRequestReject();
-        return _mapper.Map<List<ResquestLateDto>>(result);
+        return _mapper.Map<List<RequestDto>>(result);
     }
 
+    //12. Devuelve un listado de todos los pedidos que han sido entregados en el mes de enero de cualquier año.
+    [HttpGet("requestDelivered")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<RequestDto>>> GetRequestDelivered()
+    {
+        var result = await _unitOfWork.Requests.GetRequestDelivered();
+        return _mapper.Map<List<RequestDto>>(result);
+    }
     
 }

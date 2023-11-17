@@ -28,6 +28,19 @@ public class PaymentRepository : GenericRepository<Payment>, IPayment
         return (totalRegistros, registros);
     }
 
-    
-
+    //13
+    public async Task<IEnumerable<Payment>> GetPayment2008()
+    {
+        FormattableString sql = $"SELECT * FROM payment WHERE paymentMethod = 'PayPal' AND DATE_FORMAT(paymentDate , '%Y') = 2008 ORDER BY total DESC";
+        return await _context.Payments.FromSql(sql).ToListAsync();
+    }
+    //14
+    public async Task<IEnumerable<object>> GetPaymentMethod()
+    {
+        var result = await _context.Payments
+                            .Select(a=> a.PaymentMethod)
+                            .Distinct()
+                            .ToListAsync();
+        return result;
+    }
 }

@@ -43,6 +43,9 @@ public class MappingProfiles : Profile
             .ReverseMap();
         CreateMap<Client, ClientIdDto>()
             .ReverseMap();
-        
+        CreateMap<Product, ProductTypeDto>()
+            .ForMember(dest=>dest.ProductType, origen=> origen.MapFrom(origen=> origen.IdProductTypeNavigation.Type))
+            .ReverseMap();
+
     }
 }

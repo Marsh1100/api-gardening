@@ -46,6 +46,14 @@ public class ClientRepository : GenericRepository<Client>, IClient
         return clients;
     }
 
+    //16
+    public async Task<IEnumerable<Client>> GetClientsMadrid()
+    {
+        FormattableString sql = $"SELECT * FROM client WHERE city = 'Madrid' AND (idEmployee= 11 OR idEmployee = 30)";
+        return await _context.Clients.FromSql(sql).ToListAsync();
+        
+    }
+
    
 
 
