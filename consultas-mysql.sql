@@ -99,20 +99,22 @@ SELECT *
 FROM client
 WHERE city = 'Madrid' AND (idEmployee= 11 OR idEmployee = 30);
 
+CREATE VIEW viewclient AS
+SELECT client.id, client.nameClient, client.nameContact, client.lastnameContact, client.phoneNumber, client.fax, 
+client.address1, client.address2, client.city, client.region, client.country, client.zipCode, client.idEmployee, client.creditLimit
+FROM client;
 -- 1.4.6 Consultas multitabla (Composición externa)
 /*CE 1.Devuelve un listado que muestre solamente los clientes que no han
 realizado ningún pago.*/
-SELECT client.id, client.nameClient, client.nameContact, client.lastnameContact, client.phoneNumber, client.fax, 
-client.address1, client.address2, client.city, client.region, client.country, client.zipCode, client.idEmployee, client.creditLimit
-FROM client
+SELECT *
+FROM viewClient client
 LEFT JOIN payment ON client.id = payment.idClient
 WHERE payment.idClient IS NULL;
 
 /*CE 2.Devuelve un listado que muestre los clientes que no han realizado ningún
 pago y los que no han realizado ningún pedido*/
-SELECT client.id, client.nameClient, client.nameContact, client.lastnameContact, client.phoneNumber, client.fax, 
-client.address1, client.address2, client.city, client.region, client.country, client.zipCode, client.idEmployee, client.creditLimit
-FROM client
+SELECT *
+FROM viewClient client
 LEFT JOIN payment ON client.id = payment.idClient
 LEFT JOIN request ON client.id = request.idClient
 WHERE payment.idClient IS NULL AND request.idClient IS NULL;
@@ -241,9 +243,41 @@ ORDER BY total_sold DESC;
 de los años que aparecen en la tabla pagos.*/
 SELECT YEAR(payment.paymentDate) AS year,SUM(payment.total) AS total_payment
 FROM payment 
-GROUP BY YEAR(payment.paymentDate);.
+GROUP BY YEAR(payment.paymentDate);
 
+/*Sub 11. Devuelve un listado que muestre solamente los clientes que no han
+realizado ningún pago.*/
+SELECT client.id AS id_client, CONCAT(client.nameContact," ", client.lastnameContact) AS cliente
+FROM client
+WHERE client.id NOT IN (SELECT idClient FROM payment);
 
+/*Sub 12. Devuelve un listado que muestre solamente los clientes que sí han realizado
+algún pago.*/
+SELECT client.id AS id_client, CONCAT(client.nameContact," ", client.lastnameContact) AS cliente
+FROM client
+WHERE client.id IN (SELECT idClient FROM payment);
 
+/*Sub 13.Devuelve un listado de los productos que nunca han aparecido en un
+pedido.*/
+SELECT *
+FROM product
+WHERE product.id NOT IN (SELECT idProduct FROM requestdetail);
 
+/*Sub 14.Devuelve el nombre, apellidos, puesto y teléfono de la oficina de aquellos
+empleados que no sean representante de ventas de ningún cliente.*/
+SELECT CONCAT(employee.name," ", employee.firstSurname," ",employee.secondSurname) AS employee, employee.position, office.phone AS office_phone
+FROM employee
+JOIN office ON employee.idOffice = office.id
+WHERE employee.id NOT IN (SELECT idEmployee FROM client);
 
+/*Sub 18.Devuelve un listado que muestre solamente los clientes que no han
+realizado ningún pago.*/
+SELECT  client.id AS id_client, CONCAT(client.nameContact," ", client.lastnameContact) AS cliente
+FROM client
+WHERE NOT EXISTS(SELECT idClient FROM payment WHERE client.id = payment.idClient);
+
+/*Sub. 19. Devuelve un listado que muestre solamente los clientes que sí han realizado
+algún pago*/
+SELECT  client.id AS id_client, CONCAT(client.nameContact," ", client.lastnameContact) AS cliente
+FROM client
+WHERE EXISTS(SELECT idClient FROM payment WHERE client.id = payment.idClient);
