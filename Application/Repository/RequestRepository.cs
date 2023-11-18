@@ -155,7 +155,9 @@ public class RequestRepository : GenericRepository<Request>, IRequest
                 group  requestdetail by requestdetail.IdProduct into newRequests
                 select new {
                     Product_name = newRequests.Select(a=>a.IdProductNavigation.Name).FirstOrDefault(),
-                    Total_sold = Math.Round((decimal)newRequests.Select(a=>a.UnitPrice * a.Quantity).Sum(),2)
+                    Total_sold = Math.Round((decimal)newRequests.Select(a=>a.UnitPrice * a.Quantity).Sum(),2),
+                    Total_tax = Math.Round((decimal)(newRequests.Select(a=>a.UnitPrice * a.Quantity).Sum()*(decimal)1.21),2)
+
                 })
                 .Where(a=>a.Total_sold>3000).ToListAsync();
     }
