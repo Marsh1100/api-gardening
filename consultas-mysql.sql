@@ -176,7 +176,7 @@ FROM client
 JOIN payment ON client.id = payment.idClient
 GROUP BY client.id;
 
-/*Resumen 10.Calcula el número de productos diferentes que hay en cada uno de los
+/*Resumen 10. Calcula el número de productos diferentes que hay en cada uno de los
 pedidos.*/
 SELECT request.id AS id_request, COUNT(DISTINCT requestdetail.idProduct ) AS cantidad_productos
 FROM request
@@ -184,8 +184,64 @@ INNER JOIN requestdetail ON request.id = requestdetail.idRequest
 INNER JOIN product ON requestdetail.idProduct = product.id
 GROUP BY requestdetail.idRequest;
 
+/*Resumen 11. Calcula la suma de la cantidad total de todos los productos que aparecen en
+cada uno de los pedidos.
+*/
+SELECT request.id AS id_request, SUM(requestdetail.unitPrice * requestdetail.quantity ) AS total_products
+FROM request
+INNER JOIN requestdetail ON request.id = requestdetail.idRequest
+INNER JOIN product ON requestdetail.idProduct = product.id
+GROUP BY requestdetail.idRequest;
 
+/*Resumen 12.Devuelve un listado de los 20 productos más vendidos y el número total de
+unidades que se han vendido de cada uno. El listado deberá estar ordenado
+por el número total de unidades vendidas. */
+SELECT product.id AS product_id ,product.name AS product_name, SUM(requestdetail.quantity ) AS total_units_sold
+FROM request
+INNER JOIN requestdetail ON request.id = requestdetail.idRequest
+INNER JOIN product ON requestdetail.idProduct = product.id
+GROUP BY requestdetail.idProduct
+ORDER BY total_products DESC 
+LIMIT 20;
 
+/*Resumen 13.La misma información que en la pregunta anterior, pero agrupada por
+código de producto */
+SELECT product.productCode AS code_product ,product.name AS product_name, SUM(requestdetail.quantity ) AS total_units_sold
+FROM request
+INNER JOIN requestdetail ON request.id = requestdetail.idRequest
+INNER JOIN product ON requestdetail.idProduct = product.id
+GROUP BY requestdetail.idProduct
+ORDER BY total_products DESC 
+LIMIT 20;
+
+/*14. La misma información que en la pregunta anterior, pero agrupada por
+código de producto filtrada por los códigos que empiecen por OR.*/
+SELECT product.productCode AS code_product ,product.name AS product_name, SUM(requestdetail.quantity ) AS total_units_sold
+FROM request
+INNER JOIN requestdetail ON request.id = requestdetail.idRequest
+INNER JOIN product ON requestdetail.idProduct = product.id
+WHERE product.productCode LIKE 'OR%'
+GROUP BY requestdetail.idProduct
+ORDER BY total_units_sold DESC 
+LIMIT 20;
+
+/* Resume 15.Lista las ventas totales de los productos que hayan facturado más de 3000
+euros. Se mostrará el nombre, unidades vendidas, total facturado y total
+facturado con impuestos (21% IVA).
+*/
+SELECT product.name AS product_name, SUM(requestdetail.quantity*requestdetail.unitPrice) AS total_sold
+FROM request
+INNER JOIN requestdetail ON request.id = requestdetail.idRequest
+INNER JOIN product ON requestdetail.idProduct = product.id
+GROUP BY requestdetail.idProduct
+HAVING SUM(requestdetail.quantity*requestdetail.unitPrice)>3000
+ORDER BY total_sold DESC;
+
+/*Resume 16. Muestre la suma total de todos los pagos que se realizaron para cada uno
+de los años que aparecen en la tabla pagos.*/
+SELECT YEAR(payment.paymentDate) AS year,SUM(payment.total) AS total_payment
+FROM payment 
+GROUP BY YEAR(payment.paymentDate);.
 
 
 
