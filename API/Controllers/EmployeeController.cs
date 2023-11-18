@@ -130,6 +130,16 @@ public class EmployeeController : ApiBaseController
         var result = await _unitOfWork.Employees.GetEmployeesBossWithoutClients();
         return Ok(result);
     }
-   
+    
+     // sub 14. Devuelve el nombre, apellidos, puesto y teléfono de la oficina de aquellos empleados que no sean representante de ventas de ningún cliente.
+    [HttpGet("employeesWithoutClients2")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> GetEmployeesWithoutClients2()
+    {
+        var result = await _unitOfWork.Employees.GetEmployeesWithoutClients2();
+        return Ok(_mapper.Map<List<EmployeeOfficeDto>>(result));
+    }
     
 }

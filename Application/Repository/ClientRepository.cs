@@ -87,19 +87,47 @@ public class ClientRepository : GenericRepository<Client>, IClient
     //resume 9
     public async Task<IEnumerable<object>> GetClientsDatePayments()
     {
-        var clients = await _context.Clients.ToListAsync();
-        var payments = await _context.Payments.ToListAsync();
 
-        return (from client in clients
-                        join payment in payments on client.Id equals  payment.IdClient
+        return await (from client in _context.Clients
+                        join payment in _context.Payments on client.Id equals  payment.IdClient
                         select client)
                         .GroupBy(a=> a.Id)
                         .Select(s=> new {
                            Client =  s.Select(d=> d.NameContact).Distinct(),
                            FirstPayment = s.Select(o=> o.Payments.Min(u=>u.PaymentDate)).FirstOrDefault(),
                            SecondPayment = s.Select(o=> o.Payments.Max(u=>u.PaymentDate)).FirstOrDefault()
-                        });
+                        }).ToListAsync();
+    }
+    //sub 11
+    public async Task<IEnumerable<object>> GetClientsWithoutPayments2()
+    {
+        return  await _context.Clients
+                        .Where(client=> 
+                        !_context.Payments.Select(a=>a.IdClient)
+                        .Contains(client.Id)).ToListAsync();
     }
 
-    //resume 10
+    //sub 12
+    public async Task<IEnumerable<object>> GetClientsWithPayments()
+    {
+        return  await _context.Clients
+                        .Where(client=> 
+                        _context.Payments.Select(a=>a.IdClient)
+                        .Contains(client.Id)).ToListAsync();
+    }
+
+     //sub 18
+    public async Task<IEnumerable<object>> GetClientsWithoutPayments3()
+    {
+        return  await _context.Clients
+                        .Where(client=> 
+                        !_context.Payments.Any(p=> p.IdClient == client.Id )).ToListAsync();
+    }
+     //sub 19
+    public async Task<IEnumerable<object>> GetClientPayments()
+    {
+        return  await _context.Clients
+                        .Where(client=> 
+                        _context.Payments.Any(p=> p.IdClient == client.Id )).ToListAsync();
+    }
 }

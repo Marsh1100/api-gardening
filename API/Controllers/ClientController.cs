@@ -176,4 +176,48 @@ public class ClientController : ApiBaseController
         var result = await _unitOfWork.Clients.GetClientsDatePayments();
         return Ok(result);
     }
+
+    // sub 11. Devuelve un listado que muestre solamente los clientes que no han realizado ningún pago.
+    [HttpGet("clientsWithoutPayments2")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> GetClientsWithoutPayments2()
+    {
+        var result = await _unitOfWork.Clients.GetClientsWithoutPayments2();
+        return Ok(_mapper.Map<IEnumerable<Client2Dto>>(result));
+    }
+    // sub 12. Devuelve un listado que muestre solamente los clientes que no han realizado ningún pago.Devuelve un listado que muestre solamente los clientes que sí han realizado algún pago.
+    [HttpGet("clientsWithPayments")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> GetClientsWithPayments()
+    {
+        var result = await _unitOfWork.Clients.GetClientsWithPayments();
+        return Ok(_mapper.Map<IEnumerable<Client2Dto>>(result));
+    }
+
+     // sub 18. Devuelve un listado que muestre solamente los clientes que no han realizado ningún pago..
+    [HttpGet("clientsWithoutPayments3")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> GetClientsWithoutPayments3()
+    {
+        var result = await _unitOfWork.Clients.GetClientsWithoutPayments3();
+        return Ok(_mapper.Map<IEnumerable<Client2Dto>>(result));
+    }
+
+    // sub 19. Devuelve un listado que muestre solamente los clientes que sí han realizado algún pago
+    [HttpGet("clientPayments")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> GetClientPayments()
+    {
+        var result = await _unitOfWork.Clients.GetClientPayments();
+        return Ok(_mapper.Map<IEnumerable<Client2Dto>>(result));
+    }
+    
 }

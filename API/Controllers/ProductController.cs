@@ -130,4 +130,14 @@ public class ProductController : ApiBaseController
         return  Ok(result);
     }
     
+    //sub 13. Devuelve un listado de los productos que nunca han aparecido en un pedido.
+    [HttpGet("productsWithoutRequest3")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<ProductTypeDto>>> GetProductsWithoutRequest3()
+    {
+        var result = await _unitOfWork.Products.GetProductsWithoutRequest3();
+        return  _mapper.Map<List<ProductTypeDto>>(result);
+    }
 }

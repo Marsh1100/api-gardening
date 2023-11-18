@@ -91,4 +91,14 @@ public class EmployeeRepository : GenericRepository<Employee>, IEmployee
                                 
                             };
     }
+
+    //sub 14
+    public async Task<IEnumerable<Employee>> GetEmployeesWithoutClients2()
+    {
+       return  await _context.Employees
+                        .Include(s=>s.IdOfficeNavigation)
+                        .Where(emp=> 
+                        !_context.Clients.Select(a=>a.IdEmployee)
+                        .Contains(emp.Id)).ToListAsync();
+    }
 }

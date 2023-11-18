@@ -23,3 +23,13 @@ public class EmployeeDto
     public string Position { get; set; }
     
 }
+public class EmployeeOfficeDto
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public string FirstSurname { get; set; }
+    public string SecondSurname { get; set; }
+    public string Position { get; set; }
+    public string Office_phone { get; set; }
+
+}

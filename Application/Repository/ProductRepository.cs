@@ -68,4 +68,13 @@ public class ProductRepository : GenericRepository<Product>, IProduct
                 });
     
     }
+
+    //sub 13
+    public async Task<IEnumerable<object>> GetProductsWithoutRequest3()
+    {
+        return  await _context.Products
+                        .Where(product=> 
+                        !_context.Requestdetails.Select(a=>a.IdProduct)
+                        .Contains(product.Id)).ToListAsync();
+    }
 }

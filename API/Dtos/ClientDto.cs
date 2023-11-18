@@ -26,6 +26,19 @@ public class ClientDto
     
 }
 
+public class Client2Dto
+{
+    public int Id { get; set; }
+    public string NameClient { get; set; }
+    public string NameContact { get; set; }
+    public string LastnameContact { get; set; }
+    public string PhoneNumber { get; set; }
+    public string Fax { get; set; }
+    public string Address1 { get; set; }
+    public string Address2 { get; set; }
+    
+}
+
 
 public class ClientIdDto
 {
