@@ -281,3 +281,50 @@ algún pago*/
 SELECT  client.id AS id_client, CONCAT(client.nameContact," ", client.lastnameContact) AS cliente
 FROM client
 WHERE EXISTS(SELECT idClient FROM payment WHERE client.id = payment.idClient);
+
+-- Consultas variadas
+/*var 1.Devuelve el listado de clientes indicando el nombre del cliente y cuántos
+pedidos ha realizado. Tenga en cuenta que pueden existir clientes que no
+han realizado ningún pedido.*/
+
+SELECT  client.id AS id_client, CONCAT(client.nameContact," ", client.lastnameContact) AS cliente, IFNULL(COUNT(request.idClient), 0) AS quantity_payments
+FROM  client 
+LEFT JOIN request ON client.id = request.idClient
+GROUP BY client.id;
+
+/*var 2. Devuelve el nombre de los clientes que hayan hecho pedidos en 2008
+ordenados alfabéticamente de menor a mayor*/
+SELECT CONCAT(client.nameContact," ", client.lastnameContact) AS cliente
+FROM client 
+JOIN request ON client.id = request.idClient
+WHERE YEAR(request.requestDate) = 2008;
+
+/*var 3.Devuelve el nombre del cliente, el nombre y primer apellido de su
+representante de ventas y el número de teléfono de la oficina del
+representante de ventas, de aquellos clientes que no hayan realizado ningún
+pago.*/
+
+SELECT client.nameContact AS client, CONCAT(employee.name," ",employee.firstSurname) AS sales_representative,
+office.phone AS office_phone
+FROM client
+LEFT JOIN payment ON client.id = payment.idClient
+JOIN employee ON client.idEmployee = employee.id
+JOIN office ON employee.idOffice = office.id
+WHERE payment.idClient IS NULL
+ORDER BY client.nameContact;
+
+/*var 4.Devuelve el listado de clientes donde aparezca el nombre del cliente, el
+nombre y primer apellido de su representante de ventas y la ciudad donde
+está su oficina.*/
+SELECT client.id as id_client,client.nameContact AS client, CONCAT(employee.name," ",employee.firstSurname) AS sales_representative,
+office.city AS office_city
+FROM client
+JOIN employee ON client.idEmployee = employee.id
+JOIN office ON employee.idOffice = office.id;
+
+/*var 5. Devuelve el nombre, apellidos, puesto y teléfono de la oficina de aquellos
+empleados que no sean representante de ventas de ningún cliente.*/
+SELECT employee.id AS id_employee,CONCAT(employee.name," ",employee.firstSurname) AS employee, employee.position, office.officineCode AS office_code
+FROM employee
+JOIN office ON employee.idOffice = office.id
+WHERE employee.id NOT IN (SELECT idEmployee FROM client);
