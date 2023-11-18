@@ -132,7 +132,17 @@ public class PaymentController : ApiBaseController
         var result = await _unitOfWork.Payments.GetPaymentByYear();
         return Ok(result);
     }
+    //Resumen 3.¿Cuál fue el pago medio en 2009?
+    [HttpGet("averagePay2009")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> GetAveragePay2009()
+    {
+        var result = await _unitOfWork.Payments.GetAveragePay2009();
+        return Ok(result);
+    }
 
+}
    
     
-}

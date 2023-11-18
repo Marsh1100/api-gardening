@@ -11,5 +11,6 @@ public interface IEmployee : IGenericRepository<Employee>
     Task<IEnumerable<Employee>> GetEmployeesWithoutClients2();
     Task<IEnumerable<Employee>> GetEmployeesWithoutClients3();
 
+    Task<object> GetTotalEmployees();
 
 }

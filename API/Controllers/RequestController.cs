@@ -155,6 +155,16 @@ public class RequestController : ApiBaseController
         return _mapper.Map<List<RequestDto>>(result);
     }
 
+    //4.¿Cuántos pedidos hay en cada estado? Ordena el resultado de forma descendente por el número de pedidos.
+    [HttpGet("requestByState")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> GetRequestByState()
+    {
+        var result = await _unitOfWork.Requests.GetRequestByState();
+        return Ok(result);
+    }
     //Resume 10.Calcula el número de productos diferentes que hay en cada uno de los pedidos.
 
     [HttpGet("quantityProducts")]
@@ -220,6 +230,7 @@ public class RequestController : ApiBaseController
         var result = await _unitOfWork.Requests.GetProductsTotal3000();
         return Ok(result);
     }
+
     
     
 }

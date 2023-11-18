@@ -152,4 +152,15 @@ public class EmployeeController : ApiBaseController
         var result = await _unitOfWork.Employees.GetEmployeesWithoutClients3();
         return Ok(_mapper.Map<List<EmployeeOfficeDto>>(result));
     }
+
+    //resume 1. ¿Cuántos empleados hay en la compañía?
+    [HttpGet("totalEmployees")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> GetTotalEmployees()
+    {
+        var result = await _unitOfWork.Employees.GetTotalEmployees();
+        return Ok(result);
+    }
 }

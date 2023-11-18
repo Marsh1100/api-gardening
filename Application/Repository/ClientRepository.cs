@@ -178,10 +178,9 @@ public class ClientRepository : GenericRepository<Client>, IClient
                 .ToListAsync();             
     }
 
-     //var 4
+    //var 4
     public async Task<IEnumerable<object>> GetClientsWihtEmployeeAndOffice()
     {
-
         return  await (from client in _context.Clients
                 join employee in _context.Employees on client.IdEmployee equals employee.Id
                 join office in _context.Offices on employee.IdOffice equals office.Id
@@ -190,7 +189,51 @@ public class ClientRepository : GenericRepository<Client>, IClient
                     client = client.NameClient,
                     sale_representative = employee.Name+" "+employee.SecondSurname,
                     office_city = office.City
-                }).OrderBy(a=>a.id_client).ToListAsync();
-                       
+                }).OrderBy(a=>a.id_client).ToListAsync();            
+    }
+    //resume 2
+    public async Task<object> GetTotalEmployeesByCountry()
+    {
+        return await _context.Clients.GroupBy(a=> a.Country)
+                    .Select(s=> new {
+                        country = s.Key,
+                        quantity_clients = s.Count()
+                    }).FirstAsync();  
+    
+    }
+
+    //resume 5
+    public async Task<object> GetTotalClientsMadrid()
+    {
+        return await _context.Clients.GroupBy(a=> a.City)
+                    .Where(d=> d.Key == "Madrid")
+                    .Select(s=> new {
+                        city = s.Key,
+                        quantity_clients = s.Count()
+                    }).FirstAsync();  
+    
+    }
+    //resume 6
+    public async Task<object> GetTotalClientsM()
+    {
+        return await _context.Clients.GroupBy(a=> a.City)
+                    .Where(d=> d.Key.StartsWith("M"))
+                    .Select(s=> new {
+                        city = s.Key,
+                        quantity_clients = s.Count()
+                    }).ToListAsync(); 
+    }
+    //resume 7
+    public async Task<object> GetTotalclientsByEmployee()
+    {
+        return await (from client in _context.Clients
+                        join employee in _context.Employees on client.IdEmployee equals employee.Id
+                        group employee by employee.Id into newgroup
+                        select new 
+                        {
+                            employee = newgroup.Select(d=> d.Name).FirstOrDefault(),
+                            quantity_clients = newgroup.Select(a=> a.Clients).Count()
+                        }).ToListAsync();
     }
 }
+

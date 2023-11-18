@@ -263,4 +263,49 @@ public class ClientController : ApiBaseController
         var result = await _unitOfWork.Clients.GetClientsWihtEmployeeAndOffice();
         return Ok(result);
     }
+    //Resumen 2.¿Cuántos clientes tiene cada país?
+    [HttpGet("totalEmployeesByCountry")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> GetTotalEmployeesByCountry()
+    {
+        var result = await _unitOfWork.Clients.GetTotalEmployeesByCountry();
+        return Ok(result);
+    }
+
+    //Resumen 5. ¿Cuántos clientes existen con domicilio en la ciudad de Madrid?
+    [HttpGet("totalClientsMadrid")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> GetTotalClientsMadrid()
+    {
+        var result = await _unitOfWork.Clients.GetTotalClientsMadrid();
+        return Ok(result);
+    }
+
+    //Resumen 6. ¿Calcula cuántos clientes tiene cada una de las ciudades que empiezan por M?
+    [HttpGet("totalClientsM")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> GetTotalClientsM()
+    {
+        var result = await _unitOfWork.Clients.GetTotalClientsM();
+        return Ok(result);
+    }
+
+    //Resumen 7. Devuelve el nombre de los representantes de ventas y el número de clientes al que atiende cada uno
+    [HttpGet("totalclientsByEmployee")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> GetTotalclientsByEmployee()
+    {
+        var result = await _unitOfWork.Clients.GetTotalclientsByEmployee();
+        return Ok(result);
+    }
 }
+
+

@@ -111,4 +111,12 @@ public class EmployeeRepository : GenericRepository<Employee>, IEmployee
                         !_context.Clients.Select(a=>a.IdEmployee)
                         .Contains(emp.Id)).ToListAsync();
     }
+    //resume 1
+    public async Task<object> GetTotalEmployees()
+    {
+        var employees = await _context.Employees.ToListAsync();
+        return new {
+            quantity_employees = employees.Count
+        };               
+    }
 }

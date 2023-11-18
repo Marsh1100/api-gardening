@@ -65,6 +65,19 @@ public class RequestRepository : GenericRepository<Request>, IRequest
                         .ToListAsync();
         return states;
     }
+
+    //resume 4
+    public async Task<object> GetRequestByState()
+    {
+        return  await _context.Requests
+                        .GroupBy(a=> a.State)
+                        .Select(s=> new{
+                            state  = s.Key,
+                            total_requests = s.Count()
+                        })
+                        .OrderByDescending(t=> t.total_requests)
+                        .ToListAsync();
+    }
     //resume 10
     public async Task<IEnumerable<object>> GetQuantityProducts()
     {

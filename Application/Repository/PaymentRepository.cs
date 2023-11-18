@@ -27,6 +27,16 @@ public class PaymentRepository : GenericRepository<Payment>, IPayment
                             .ToListAsync();
         return (totalRegistros, registros);
     }
+    //3
+    public async Task<object> GetAveragePay2009()
+    {
+        var payments = await _context.Payments.ToListAsync();
+        var average = payments
+                        .Where(d=> d.PaymentDate.Year.Equals(2009))
+                        .Average(a=> a.Total);
+        return average;
+    }
+    
 
     //13
     public async Task<IEnumerable<Payment>> GetPayment2008()
@@ -54,4 +64,7 @@ public class PaymentRepository : GenericRepository<Payment>, IPayment
                             total_payment = s.Select(a=> a.Total).Sum()
                         }).ToListAsync();
     }
+
+
+
 }

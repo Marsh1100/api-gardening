@@ -16,5 +16,6 @@ public interface IRequest : IGenericRepository<Request>
     Task<IEnumerable<object>> GetProductsCode20Sold();
     Task<IEnumerable<object>> GetProductsCode20StartOR();
     Task<IEnumerable<object>> GetProductsTotal3000();
+    Task<object> GetRequestByState();
 
 }
