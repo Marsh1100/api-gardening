@@ -11,4 +11,10 @@ public interface IRequest : IGenericRepository<Request>
     Task<IEnumerable<Request>> GetRequestDelivered();
 
     Task<IEnumerable<object>> GetQuantityProducts();
+    Task<IEnumerable<object>> GetSumProductsRequest();
+    Task<IEnumerable<object>> GetProducts20Sold();
+    Task<IEnumerable<object>> GetProductsCode20Sold();
+    Task<IEnumerable<object>> GetProductsCode20StartOR();
+    Task<IEnumerable<object>> GetProductsTotal3000();
+
 }

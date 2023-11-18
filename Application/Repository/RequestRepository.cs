@@ -65,7 +65,7 @@ public class RequestRepository : GenericRepository<Request>, IRequest
                         .ToListAsync();
         return states;
     }
-    //resumo 10
+    //resume 10
     public async Task<IEnumerable<object>> GetQuantityProducts()
     {
         var products = await _context.Products.ToListAsync();
@@ -80,5 +80,83 @@ public class RequestRepository : GenericRepository<Request>, IRequest
                     Id_Request = newRequests.Key,
                     Quantity_products = newRequests.Select(a=>a.IdProduct).Count()
                 };
+    }
+
+    //resume 11
+    public async Task<IEnumerable<object>> GetSumProductsRequest()
+    {
+        var products = await _context.Products.ToListAsync();
+        var requestdetails = await _context.Requestdetails.ToListAsync();
+        var requests =  await _context.Requests.ToListAsync();
+
+        return from request in requests
+                join requestdetail in requestdetails on request.Id equals requestdetail.IdRequest
+                join product in products on requestdetail.IdProduct equals product.Id
+                group  requestdetail by requestdetail.IdRequest into newRequests
+                select new {
+                    Id_Request = newRequests.Key,
+                    Total_products = newRequests.Select(a=>a.UnitPrice * a.Quantity).Sum()
+                };
+    }
+
+    //resume 12
+    public async Task<IEnumerable<object>> GetProducts20Sold()
+    {
+       
+        return await (from request in _context.Requests
+                join requestdetail in _context.Requestdetails on request.Id equals requestdetail.IdRequest
+                join product in _context.Products on requestdetail.IdProduct equals product.Id
+                group  requestdetail by requestdetail.IdProduct into newRequests
+                select new {
+                    Product_name = newRequests.Select(a=>a.IdProductNavigation.Name).FirstOrDefault(),
+                    Total_products = newRequests.Select(a=>a.Quantity).Sum()
+                })
+                .OrderByDescending(r=>r.Total_products).Take(20).ToListAsync()
+                ;
+    }
+    //resume 13
+    public async Task<IEnumerable<object>> GetProductsCode20Sold()
+    {
+
+        return await (from request in _context.Requests
+                join requestdetail in _context.Requestdetails on request.Id equals requestdetail.IdRequest
+                join product in _context.Products on requestdetail.IdProduct equals product.Id
+                group  requestdetail by requestdetail.IdProduct into newRequests
+                select new {
+                    Code_product = newRequests.Select(a=>a.IdProductNavigation.ProductCode).FirstOrDefault(),
+                    Total_products = newRequests.Select(a=>a.Quantity).Sum()
+                })
+                .OrderByDescending(r=>r.Total_products).Take(20).ToListAsync()
+                ;
+    }
+
+    //resume 14
+    public async Task<IEnumerable<object>> GetProductsCode20StartOR()
+    {
+      
+        return await (from request in _context.Requests
+                join requestdetail in _context.Requestdetails on request.Id equals requestdetail.IdRequest
+                join product in _context.Products on requestdetail.IdProduct equals product.Id
+                where product.ProductCode.StartsWith("OR")
+                group  requestdetail by requestdetail.IdProduct into newRequests
+                select new {
+                    Code_product = newRequests.Select(a=>a.IdProductNavigation.ProductCode).FirstOrDefault(),
+                    Total_products = newRequests.Select(a=>a.Quantity).Sum()
+                })
+                .OrderByDescending(r=>r.Total_products).Take(20).ToListAsync();
+    }
+    //resume 15
+    public async Task<IEnumerable<object>> GetProductsTotal3000()
+    {
+      
+        return await (from request in _context.Requests
+                join requestdetail in _context.Requestdetails on request.Id equals requestdetail.IdRequest
+                join product in _context.Products on requestdetail.IdProduct equals product.Id
+                group  requestdetail by requestdetail.IdProduct into newRequests
+                select new {
+                    Product_name = newRequests.Select(a=>a.IdProductNavigation.Name).FirstOrDefault(),
+                    Total_sold = Math.Round((decimal)newRequests.Select(a=>a.UnitPrice * a.Quantity).Sum(),2)
+                })
+                .Where(a=>a.Total_sold>3000).ToListAsync();
     }
 }

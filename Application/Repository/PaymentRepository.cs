@@ -43,4 +43,15 @@ public class PaymentRepository : GenericRepository<Payment>, IPayment
                             .ToListAsync();
         return result;
     }
+
+    //resume 16
+    public async Task<IEnumerable<object>> GetPaymentByYear()
+    {
+        return await _context.Payments
+                        .GroupBy(a=>a.PaymentDate.Year)
+                        .Select(s=> new{
+                            year = s.Key,
+                            total_payment = s.Select(a=> a.Total).Sum()
+                        }).ToListAsync();
+    }
 }

@@ -166,5 +166,60 @@ public class RequestController : ApiBaseController
         var result = await _unitOfWork.Requests.GetQuantityProducts();
         return Ok(result);
     }
+
+    //Resume 11.Calcula la suma de la cantidad total de todos los productos que aparecen en cada uno de los pedidos.
+    [HttpGet("sumProductsRequest")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> GetSumProductsRequest()
+    {
+        var result = await _unitOfWork.Requests.GetSumProductsRequest();
+        return Ok(result);
+    }
+
+    //Resume 12.Devuelve un listado de los 20 productos más vendidos y el número total de unidades que se han vendido de cada uno. El listado deberá estar ordenado por el número total de unidades vendidas.
+    [HttpGet("products20Sold")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> GetProducts20Sold()
+    {
+        var result = await _unitOfWork.Requests.GetProducts20Sold();
+        return Ok(result);
+    }
+
+    //Resume 13. La misma información que en la pregunta anterior, pero agrupada por código de producto.
+    [HttpGet("productsCode20Sold")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> GetProductsCode20Sold()
+    {
+        var result = await _unitOfWork.Requests.GetProductsCode20Sold();
+        return Ok(result);
+    }
+    //Resume 14. . La misma información que en la pregunta anterior, pero agrupada por código de producto filtrada por los códigos que empiecen por OR
+    [HttpGet("productsCode20StartOR")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> GetProductsCode20StartOR()
+    {
+        var result = await _unitOfWork.Requests.GetProductsCode20StartOR();
+        return Ok(result);
+    }
+
+    //Resume 15. Lista las ventas totales de los productos que hayan facturado más de 3000 euros. Se mostrará el nombre, unidades vendidas, total facturado y total facturado con impuestos (21% IVA).
+    [HttpGet("productsTotal3000")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> GetProductsTotal3000()
+    {
+        var result = await _unitOfWork.Requests.GetProductsTotal3000();
+        return Ok(result);
+    }
+    
     
 }

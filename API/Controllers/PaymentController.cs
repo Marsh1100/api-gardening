@@ -122,6 +122,17 @@ public class PaymentController : ApiBaseController
         return Ok(result);
     }
 
+    //Resume 16. Muestre la suma total de todos los pagos que se realizaron para cada uno de los años que aparecen en la tabla pagos..
+    [HttpGet("paymentByYear")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> GetPaymentByYear()
+    {
+        var result = await _unitOfWork.Payments.GetPaymentByYear();
+        return Ok(result);
+    }
+
    
     
 }
