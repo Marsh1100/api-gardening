@@ -130,4 +130,67 @@ public class ClientRepository : GenericRepository<Client>, IClient
                         .Where(client=> 
                         _context.Payments.Any(p=> p.IdClient == client.Id )).ToListAsync();
     }
+
+    //var 1
+    public async Task<IEnumerable<object>> GetClientQuantityPayments()
+    {
+        var clients = await _context.Clients.ToListAsync();
+        var requests = await _context.Requests.ToListAsync();
+
+        return  from client in clients
+                join request in requests on client.Id equals request.IdClient into h
+                from allrequest in h.DefaultIfEmpty()
+                group new { client, allrequest }  by client.Id into newgroup
+                select new {
+                    client = newgroup.Select(a=> a.client.NameContact +" "+a.client.LastnameContact).FirstOrDefault(),
+                    quantity_payments = newgroup.Count(s=> s.allrequest != null)
+                };
+                       
+    }
+
+    //var 2
+    public async Task<IEnumerable<object>> GetClientsRequest2008()
+    {
+        var clients = await _context.Clients.ToListAsync();
+        var requests = await _context.Requests.ToListAsync();
+
+        return  (from client in clients
+                join request in requests on client.Id equals request.IdClient 
+                where request.RequestDate.Year.Equals(2008)
+                select new {
+                    client = client.NameClient
+                }).Distinct();                
+    }
+    //var 3
+    public async Task<IEnumerable<object>> GetClientsWithoutPayments4()
+    {
+
+        return  await (from client in _context.Clients
+                join employee in _context.Employees on client.IdEmployee equals employee.Id
+                join office in _context.Offices on employee.IdOffice equals office.Id
+                where !_context.Payments.Any(p=> p.IdClient == client.Id )
+                select new {
+                    client = client.NameClient,
+                    sale_representative = employee.Name+" "+employee.SecondSurname,
+                    office_phone = office.Phone
+                })
+                .OrderBy(a=>a.client)
+                .ToListAsync();             
+    }
+
+     //var 4
+    public async Task<IEnumerable<object>> GetClientsWihtEmployeeAndOffice()
+    {
+
+        return  await (from client in _context.Clients
+                join employee in _context.Employees on client.IdEmployee equals employee.Id
+                join office in _context.Offices on employee.IdOffice equals office.Id
+                select new {
+                    id_client   = client.Id,
+                    client = client.NameClient,
+                    sale_representative = employee.Name+" "+employee.SecondSurname,
+                    office_city = office.City
+                }).OrderBy(a=>a.id_client).ToListAsync();
+                       
+    }
 }

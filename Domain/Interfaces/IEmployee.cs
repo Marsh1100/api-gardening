@@ -9,5 +9,7 @@ public interface IEmployee : IGenericRepository<Employee>
     Task<IEnumerable<object>> GetEmployeesWithoutClients();
     Task<IEnumerable<object>> GetEmployeesBossWithoutClients();
     Task<IEnumerable<Employee>> GetEmployeesWithoutClients2();
+    Task<IEnumerable<Employee>> GetEmployeesWithoutClients3();
+
 
 }

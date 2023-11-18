@@ -101,4 +101,14 @@ public class EmployeeRepository : GenericRepository<Employee>, IEmployee
                         !_context.Clients.Select(a=>a.IdEmployee)
                         .Contains(emp.Id)).ToListAsync();
     }
+
+    //var 5
+    public async Task<IEnumerable<Employee>> GetEmployeesWithoutClients3()
+    {
+       return  await _context.Employees
+                        .Include(s=>s.IdOfficeNavigation)
+                        .Where(emp=> 
+                        !_context.Clients.Select(a=>a.IdEmployee)
+                        .Contains(emp.Id)).ToListAsync();
+    }
 }

@@ -220,4 +220,47 @@ public class ClientController : ApiBaseController
         return Ok(_mapper.Map<IEnumerable<Client2Dto>>(result));
     }
     
+    // var 1.Devuelve el listado de clientes indicando el nombre del cliente y cuántos pedidos ha realizado. Tenga en cuenta que pueden existir clientes que no han realizado ningún pedido.
+    [HttpGet("clientQuantityPayments")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> GetClientQuantityPayments()
+    {
+        var result = await _unitOfWork.Clients.GetClientQuantityPayments();
+        return Ok(result);
+    }
+
+    //var 2 . Devuelve el nombre de los clientes que hayan hecho pedidos en 2008 ordenados alfabéticamente de menor a mayor
+     [HttpGet("clientsRequest2008")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> GetClientsRequest2008()
+    {
+        var result = await _unitOfWork.Clients.GetClientsRequest2008();
+        return Ok(result);
+    }
+    //var 3. Devuelve el nombre del cliente, el nombre y primer apellido de su representante de ventas y el número de teléfono de la oficina del representante de ventas, de aquellos clientes que no hayan realizado ningún pago.
+
+    [HttpGet("clientsWithoutPayments4")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> GetClientsWithoutPayments4()
+    {
+        var result = await _unitOfWork.Clients.GetClientsWithoutPayments4();
+        return Ok(result);
+    }
+
+    // var 4. Devuelve el listado de clientes donde aparezca el nombre del cliente, el nombre y primer apellido de su representante de ventas y la ciudad donde está su oficina.
+    [HttpGet("clientsWihtEmployeeAndOffice")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> GetClientsWihtEmployeeAndOffice()
+    {
+        var result = await _unitOfWork.Clients.GetClientsWihtEmployeeAndOffice();
+        return Ok(result);
+    }
 }
