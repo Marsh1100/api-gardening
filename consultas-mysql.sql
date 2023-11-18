@@ -160,8 +160,6 @@ la compra de algún producto de la gama Frutales.*/
 
 /*CE 8.Devuelve un listado con los clientes que han realizado algún pedido pero no 
 han realizado ningún pago.*/
-
--- 1.4.7 Resumen (Composición externa)
 /*CE 9.Devuelve un listado con los datos de los empleados que no tienen clientes 
 asociados y el nombre de su jefe asociado*/
 SELECT CONCAT(emp.name," ", emp.firstSurname," ",emp.secondSurname) AS employee, IF(empBoss.name is null, 'No tiene jefe', empBoss.name) AS boss
@@ -170,9 +168,55 @@ LEFT JOIN employee empBoss ON emp.idBoss = empBoss.id
 LEFT JOIN client ON emp.id = client.idEmployee
 WHERE client.id IS NULL;
 
+-- 1.4.7 Resumen (Composición externa)
+/*Resumen 1 ¿Cuántos empleados hay en la compañía?*/
+SELECT COUNT(employee.id) AS quantity_employees
+FROM employee;
+
+/*Resumen 2.¿Cuántos clientes tiene cada país?*/
+SELECT client.country, COUNT(client.country) AS quantity_clients
+FROM client
+GROUP BY client.country;
+
+/*Resumen 3.¿Cuál fue el pago medio en 2009?*/
+SELECT YEAR(payment.paymentDate) AS year, AVG(payment.total) AS average_pay
+FROM payment
+WHERE YEAR(payment.paymentDate) = 2009;
+
+/*Resumen 4.¿Cuántos pedidos hay en cada estado? Ordena el resultado de forma
+descendente por el número de pedidos.*/
+SELECT request.state, COUNT(request.id) AS total_requests
+FROM request
+GROUP BY request.state
+ORDER BY total_requests DESC;
+
+/*Resumen 5. ¿Cuántos clientes existen con domicilio en la ciudad de Madrid?*/
+SELECT client.city,COUNT(client.id) AS quantity_clients
+FROM client
+WHERE client.city = 'Madrid';
+
+/*Resumen 6. ¿Calcula cuántos clientes tiene cada una de las ciudades que empiezan
+por M?*/
+SELECT client.city, COUNT(client.id) AS quantity_clients
+FROM client
+GROUP BY client.city
+HAVING city LIKE 'M%';
+
+/*Resumen 7.Devuelve el nombre de los representantes de ventas y el número de clientes
+al que atiende cada uno.*/
+SELECT employee.id AS id_employee,employee.name AS employee, COUNT(client.id) AS quantity_clients 
+FROM employee
+JOIN client ON employee.id = client.idEmployee
+GROUP BY employee.id;
+
+/*Resumen 8. Calcula el número de clientes que no tiene asignado representante de
+ventas.*/
+SELECT COUNT(client.id) AS quantiy_clients
+FROM client
+WHERE client.idEmployee IS NULL;
+
 /*Resumen 9. Calcula la fecha del primer y último pago realizado por cada uno de los 
 clientes. El listado deberá mostrar el nombre y los apellidos de cada cliente. */
-/*secondpayment.paymentDate AS second_payment*/
 SELECT CONCAT(client.nameContact," ", client.lastnameContact) AS cliente,MIN(payment.paymentDate) AS first_payment ,MAX(payment.paymentDate) AS second_payment
 FROM client
 JOIN payment ON client.id = payment.idClient
@@ -203,7 +247,7 @@ FROM request
 INNER JOIN requestdetail ON request.id = requestdetail.idRequest
 INNER JOIN product ON requestdetail.idProduct = product.id
 GROUP BY requestdetail.idProduct
-ORDER BY total_products DESC 
+ORDER BY  total_units_sold DESC 
 LIMIT 20;
 
 /*Resumen 13.La misma información que en la pregunta anterior, pero agrupada por
@@ -213,10 +257,10 @@ FROM request
 INNER JOIN requestdetail ON request.id = requestdetail.idRequest
 INNER JOIN product ON requestdetail.idProduct = product.id
 GROUP BY requestdetail.idProduct
-ORDER BY total_products DESC 
+ORDER BY total_units_sold DESC 
 LIMIT 20;
 
-/*14. La misma información que en la pregunta anterior, pero agrupada por
+/*resume 14. La misma información que en la pregunta anterior, pero agrupada por
 código de producto filtrada por los códigos que empiecen por OR.*/
 SELECT product.productCode AS code_product ,product.name AS product_name, SUM(requestdetail.quantity ) AS total_units_sold
 FROM request
@@ -231,7 +275,8 @@ LIMIT 20;
 euros. Se mostrará el nombre, unidades vendidas, total facturado y total
 facturado con impuestos (21% IVA).
 */
-SELECT product.name AS product_name, SUM(requestdetail.quantity*requestdetail.unitPrice) AS total_sold
+SELECT product.name AS product_name, SUM(requestdetail.quantity*requestdetail.unitPrice) AS total_sold,
+SUM((requestdetail.quantity*requestdetail.unitPrice)*1.21) AS total_tax
 FROM request
 INNER JOIN requestdetail ON request.id = requestdetail.idRequest
 INNER JOIN product ON requestdetail.idProduct = product.id
