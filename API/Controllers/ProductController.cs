@@ -129,6 +129,38 @@ public class ProductController : ApiBaseController
         var result = await _unitOfWork.Products.GetProductsWithoutRequest2();
         return  Ok(result);
     }
+
+    // sub 2 Devuelve el nombre del producto que tenga el precio de venta más caro.
+    [HttpGet("moreExpensivePrice")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<object>>> GetMoreExpensivePrice()
+    {
+        var result = await _unitOfWork.Products.GetMoreExpensivePrice();
+        return  Ok(result);
+    }
+    // sub 3 Devuelve el nombre del producto del que se han vendido más unidades. Tenga en cuenta que tendrá que calcular cuál es el número total de unidades que se han ven
+    [HttpGet("mostSold")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<object>>> GetMostSold()
+    {
+        var result = await _unitOfWork.Products.GetMostSold();
+        return  Ok(result);
+    }
+
+    //sub 9 Devuelve el nombre del producto que tenga el precio de venta más caro.
+    [HttpGet("moreExpensivePrice2")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<object>>> GetMoreExpensivePrice2()
+    {
+        var result = await _unitOfWork.Products.GetMoreExpensivePrice2();
+        return  Ok(result);
+    }
     
     //sub 13. Devuelve un listado de los productos que nunca han aparecido en un pedido.
     [HttpGet("productsWithoutRequest3")]

@@ -187,6 +187,37 @@ public class ClientController : ApiBaseController
         var result = await _unitOfWork.Clients.GetClientsWithoutPayments2();
         return Ok(_mapper.Map<IEnumerable<Client2Dto>>(result));
     }
+
+    //sub 1.Devuelve el nombre del client con mayor límite de crédito.
+    [HttpGet("clientCreditlimit")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> GetClientCreditlimit()
+    {
+        var result = await _unitOfWork.Clients.GetClientCreditlimit();
+        return Ok(result);
+    }
+    // sub 4. Los clientes cuyo límite de crédito sea mayor que los pagos que haya realizado. (Sin utilizar INNER JOIN).
+    [HttpGet("clientCreditlimitGreaterPayments")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> GetClientCreditlimitGreaterPayments()
+    {
+        var result = await _unitOfWork.Clients.GetClientCreditlimitGreaterPayments();
+        return Ok(result);
+    }
+    // sub 8. Devuelve el nombre del client con mayor límite de crédito.
+    [HttpGet("clientCreditlimit2")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> GetClientCreditlimit2()
+    {
+        var result = await _unitOfWork.Clients.GetClientCreditlimit2();
+        return Ok(result);
+    }
     // sub 12. Devuelve un listado que muestre solamente los clientes que no han realizado ningún pago.Devuelve un listado que muestre solamente los clientes que sí han realizado algún pago.
     [HttpGet("clientsWithPayments")]
     [MapToApiVersion("1.0")]

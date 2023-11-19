@@ -1,5 +1,6 @@
 using Domain.Entities;
 using Domain.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 using Persistence.Data;
@@ -98,6 +99,41 @@ public class ClientRepository : GenericRepository<Client>, IClient
                            SecondPayment = s.Select(o=> o.Payments.Max(u=>u.PaymentDate)).FirstOrDefault()
                         }).ToListAsync();
     }
+    //sub 1
+    public async Task<object> GetClientCreditlimit()
+    {
+
+        var maxCredit = await _context.Clients.MaxAsync(c=> c.CreditLimit);
+        return  await _context.Clients
+                        .Where(c=> c.CreditLimit == maxCredit)
+                        .Select(s=> new { client = s.NameClient})
+                        .ToListAsync();
+    }
+
+     //sub 2
+    public async Task<object> GetClientCreditlimitGreaterPayments()
+    {
+
+        return  await (from client in _context.Clients
+                         where client.CreditLimit > 
+                               (from payment in _context.Payments
+                                where payment.IdClient == client.Id
+                                select (decimal?)payment.Total).Sum() 
+                         select new { client_name  = client.NameClient}).ToListAsync();
+    }
+
+    //sub 8
+    public async Task<object> GetClientCreditlimit2()
+    {
+
+        var maxCredit = await _context.Clients.MaxAsync(c=> c.CreditLimit);
+        return  await _context.Clients
+                        .Where(c=> c.CreditLimit == maxCredit)
+                        .Select(s=> new { client = s.NameClient})
+                        .ToListAsync();
+    }
+
+
     //sub 11
     public async Task<IEnumerable<object>> GetClientsWithoutPayments2()
     {

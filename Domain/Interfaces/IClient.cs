@@ -24,6 +24,9 @@ public interface IClient : IGenericRepository<Client>
     Task<object> GetTotalClientsMadrid();
     Task<object> GetTotalclientsByEmployee();
     Task<object> GetTotalClientsM();
+    Task<object> GetClientCreditlimit();
+    Task<object> GetClientCreditlimitGreaterPayments();
+    Task<object> GetClientCreditlimit2();
 
 
 

@@ -68,6 +68,37 @@ public class ProductRepository : GenericRepository<Product>, IProduct
                 });
     
     }
+    //sub 2
+    public async Task<IEnumerable<object>> GetMoreExpensivePrice()
+    {
+        var maxExpensive = await _context.Products.MaxAsync(c=> c.SalePrice);
+        return  await _context.Products
+                        .Where(c=> c.SalePrice == maxExpensive)
+                        .Select(s=> new { Product = s.Name})
+                        .ToListAsync();
+    }
+    //sub 3
+    public async Task<IEnumerable<object>> GetMostSold()
+    {
+        var maxQuantity = await _context.Requestdetails.MaxAsync(a => a.Quantity);
+        return  from product in _context.Products
+                let totalUnitsSold = product.Requestdetails.Sum(a => a.Quantity)
+                where totalUnitsSold == maxQuantity
+                select new
+                {
+                    product_name = product.Name,
+                    total_units_sold = maxQuantity
+                };
+    }
+    //sub 9
+    public async Task<IEnumerable<object>> GetMoreExpensivePrice2()
+    {
+        var maxExpensive = await _context.Products.MaxAsync(c=> c.SalePrice);
+        return  await _context.Products
+                        .Where(c=> c.SalePrice == maxExpensive)
+                        .Select(s=> new { Product = s.Name})
+                        .ToListAsync();
+    }
 
     //sub 13
     public async Task<IEnumerable<object>> GetProductsWithoutRequest3()
