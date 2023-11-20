@@ -405,6 +405,18 @@ public class ClientController : ApiBaseController
         var result = await _unitOfWork.Clients.GetTotalclientsByEmployee();
         return Ok(result);
     }
+
+    //Resumen 8. Calcula el número de clientes que no tiene asignado representante de  ventas.
+    [HttpGet("quantityWithoutSeller")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> GetQuantityWithoutSeller()
+    {
+        var result = await _unitOfWork.Clients.GetQuantityWithoutSeller();
+        return Ok(result);
+    }
+
 }
 
 

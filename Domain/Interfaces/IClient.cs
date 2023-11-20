@@ -35,7 +35,7 @@ public interface IClient : IGenericRepository<Client>
     Task<IEnumerable<object>> GetclientsPaymentsAndSeller();
     Task<IEnumerable<object>> GetRequestLate();
     Task<IEnumerable<object>> GetProducttypeByClient();
-
+    Task<object> GetQuantityWithoutSeller();
 
 
 

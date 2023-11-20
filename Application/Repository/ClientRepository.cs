@@ -203,6 +203,14 @@ public class ClientRepository : GenericRepository<Client>, IClient
                 select client).Distinct();
     
     }
+    //resume 8
+    public async Task<object> GetQuantityWithoutSeller()
+    {
+        var cant = await _context.Clients.Where(a=> a.IdEmployee == null).CountAsync();
+        return new { quantity = cant };
+                        
+    }
+
     //resume 9
     public async Task<IEnumerable<object>> GetClientsDatePayments()
     {
