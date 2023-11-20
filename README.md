@@ -113,13 +113,13 @@ http://localhost:5000/api/Client/spanishClients
 2. Devuelve un listado con los distintos estados por los que puede pasar un 
 pedido.
 ```
-
+http://localhost:5000/api/Request/states
 ```
 3. Devuelve un listado con el código de cliente de aquellos clientes que 
 realizaron algún pago en 2008. Tenga en cuenta que deberá eliminar 
 aquellos códigos de cliente que aparezcan repetidos. Resuelva la consulta
 ```
-
+http://localhost:5000/api/Client/clientsPay2008
 ```
   • Utilizando la función YEAR de MySQL.
   • Utilizando la función DATE_FORMAT de MySQL.
@@ -129,141 +129,141 @@ aquellos códigos de cliente que aparezcan repetidos. Resuelva la consulta
 esperada y fecha de entrega de los pedidos que no han sido entregados a 
 tiempo.
 ```
-
+http://localhost:5000/api/Request/requestLate
 ```
 10. Devuelve un listado con el código de pedido, código de cliente, fecha 
 esperada y fecha de entrega de los pedidos cuya fecha de entrega ha sido al 
 menos dos días antes de la fecha esperada.
 ```
-
+http://localhost:5000/api/Request/requestEarly
 ```
 • Utilizando la función ADDDATE de MySQL.
 • Utilizando la función DATEDIFF de MySQL.
 • ¿Sería posible resolver esta consulta utilizando el operador de suma + o 
 resta -?
 
-12. Devuelve un listado de todos los pedidos que fueron rechazados en 2009.
+11. Devuelve un listado de todos los pedidos que fueron rechazados en 2009.
 ```
-
+http://localhost:5000/api/Request/requestReject
 ```
-13. Devuelve un listado de todos los pedidos que han sido entregados en el 
+12. Devuelve un listado de todos los pedidos que han sido entregados en el 
 mes de enero de cualquier año.
 ```
-
+http://localhost:5000/api/Request/requestDelivered
 ```
-14. Devuelve un listado con todos los pagos que se realizaron en el 
+13. Devuelve un listado con todos los pagos que se realizaron en el 
 año 2008 mediante Paypal. Ordene el resultado de mayor a menor.
 ```
-
+http://localhost:5000/api/Payment/payment2008
 ```
-15. Devuelve un listado con todas las formas de pago que aparecen en la 
+14. Devuelve un listado con todas las formas de pago que aparecen en la 
 tabla pago. Tenga en cuenta que no deben aparecer formas de pago 
 repetidas.
 ```
-
+http://localhost:5000/api/Payment/paymentMethod
 ```
-16. Devuelve un listado con todos los productos que pertenecen a la 
+15. Devuelve un listado con todos los productos que pertenecen a la 
 gama Ornamentales y que tienen más de 100 unidades en stock. El listado 
 deberá estar ordenado por su precio de venta, mostrando en primer lugar 
 los de mayor precio.
 ```
-
+http://localhost:5000/api/Product/productsOrnamentales
 ```
-17. Devuelve un listado con todos los clientes que sean de la ciudad de Madrid y 
+16. Devuelve un listado con todos los clientes que sean de la ciudad de Madrid y 
 cuyo representante de ventas tenga el código de empleado 11 o 30.
 ```
-
+http://localhost:5000/api/Client/clientsMadrid
 ```
 <b>Consultas multitabla (Composición interna) </b>
 1. Obtén un listado con el nombre de cada cliente y el nombre y apellido de su 
 representante de ventas.
 ```
-
+http://localhost:5000/api/Client/clientsAndSeller
 ```
 2. Muestra el nombre de los clientes que hayan realizado pagos junto con el 
 nombre de sus representantes de ventas.
 ```
-
+http://localhost:5000/api/Client/clientsPaymentsAndSeller
 ```
 3. Muestra el nombre de los clientes que no hayan realizado pagos junto con 
 el nombre de sus representantes de ventas.
 ```
-
+http://localhost:5000/api/Client/clientsWithoutPaymentsAndSeller
 ```
 4. Devuelve el nombre de los clientes que han hecho pagos y el nombre de sus 
 representantes junto con la ciudad de la oficina a la que pertenece el 
 representante.
 ```
-
+http://localhost:5000/api/Client/clientsPaymentsAndSellerOffice
 ```
 5. Devuelve el nombre de los clientes que no hayan hecho pagos y el nombre 
 de sus representantes junto con la ciudad de la oficina a la que pertenece el 
 representante.
 ```
-
+http://localhost:5000/api/Client/clientsWithoutPaymentsAndSellerOffice
 ```
 6. Devuelve un listado que muestre el nombre de cada empleados, el nombre 
 de su jefe y el nombre del jefe de sus jefe.
 ```
-
+http://localhost:5000/api/Employee/employeesWithBoss
 ```
 7. Devuelve el nombre de los clientes a los que no se les ha entregado a 
 tiempo un pedido.
 ```
-
+http://localhost:5000/api/Client/requestLate
 ```
 8. Devuelve un listado de las diferentes gamas de producto que ha comprado 
 cada cliente
 ```
-
+http://localhost:5000/api/Client/producttypeByClient
 ```
 <b>Consultas multitabla (Composición externa) </b>
 1. Devuelve un listado que muestre solamente los clientes que no han 
 realizado ningún pago.
 ```
-
+http://localhost:5000/api/Client/clientsWithoutPayments
 ```
 2. Devuelve un listado que muestre los clientes que no han realizado ningún 
 pago y los que no han realizado ningún pedido.
 ```
-
+http://localhost:5000/api/Client/clientsWithoutPaymentsANDrequest
 ```
 3. Devuelve un listado que muestre solamente los empleados que no tienen un 
 cliente asociado junto con los datos de la oficina donde trabajan.
 ```
-
+http://localhost:5000/api/Employee/employeesWithoutClients
 ```
 4. Devuelve un listado que muestre los empleados que no tienen una oficina 
 asociada y los que no tienen un cliente asociado.
 ```
-
+http://localhost:5000/api/Employee/employeesWithoutClientsAndOffice
 ```
 5. Devuelve un listado de los productos que nunca han aparecido en un 
 pedido.
 ```
-
+http://localhost:5000/api/Product/productsWithoutRequest
 ```
 6. Devuelve un listado de los productos que nunca han aparecido en un 
 pedido. El resultado debe mostrar el nombre, la descripción y la imagen del 
 producto.
 ```
-
+http://localhost:5000/api/Product/productsWithoutRequest2
 ```
 7. Devuelve las oficinas donde no trabajan ninguno de los empleados que 
 hayan sido los representantes de ventas de algún cliente que haya realizado 
 la compra de algún producto de la gama Frutales.
 ```
-
+http://localhost:5000/api/Office/officesWithoutEmployee
 ```
 8. Devuelve un listado con los clientes que han realizado algún pedido pero no 
 han realizado ningún pago.
 ```
-
+http://localhost:5000/api/Client/clientsRequestWithoutPayments
 ```
 9. Devuelve un listado con los datos de los empleados que no tienen clientes 
 asociados y el nombre de su jefe asociado.
 ```
-
+http://localhost:5000/api/Employee/employeesBossWithoutClients
 ```
 <b>Consultas resumen </b>
 1. ¿Cuántos empleados hay en la compañía?
