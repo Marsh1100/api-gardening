@@ -229,9 +229,27 @@ WHERE requestdetail.id IS NULL;
 /*CE 7.Devuelve las oficinas donde no trabajan ninguno de los empleados que
 hayan sido los representantes de ventas de algún client que haya realizado
 la compra de algún producto de la gama Frutales.*/
+SELECT DISTINCT office.officineCode, office.address1, office.city
+FROM employee
+JOIN office ON employee.idOffice = office.id
+JOIN client ON employee.id = client.id
+JOIN request ON client.id = request.idClient
+JOIN requestdetail ON request.id = requestdetail.idRequest
+JOIN product ON requestdetail.idProduct = product.id
+JOIN producttype ON product.idProductType = producttype.id
+WHERE producttype.type != 'Frutales'; 
+
 
 /*CE 8.Devuelve un listado con los clients que han realizado algún pedido pero no 
 han realizado ningún pago.*/
+
+SELECT DISTINCT client.id, client.nameClient, client.nameContact, client.lastnameContact, client.phoneNumber, client.fax, 
+client.address1, client.address2, client.city, client.region, client.country, client.zipCode, client.idEmployee, client.creditLimit
+FROM client
+JOIN request ON client.id = request.idClient
+LEFT JOIN payment ON client.id = payment.idClient
+WHERE client.id IN (SELECT idClient FROM request) AND payment.id IS NULL;
+
 /*CE 9.Devuelve un listado con los datos de los empleados que no tienen clients 
 asociados y el nombre de su jefe asociado*/
 SELECT CONCAT(emp.name," ", emp.firstSurname," ",emp.secondSurname) AS employee, IF(empBoss.name is null, 'No tiene jefe', empBoss.name) AS boss
