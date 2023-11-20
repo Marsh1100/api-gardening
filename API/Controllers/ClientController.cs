@@ -83,18 +83,14 @@ public class ClientController : ApiBaseController
 
 
     [HttpDelete("{id}")]
+    [Authorize(Roles ="Administrator")]
     [MapToApiVersion("1.0")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-
-
     public async Task<IActionResult> Delete(int id)
     {
         var result = await _unitOfWork.Users.GetByIdAsync(id);
-        if(result == null)
-        {
-            return NotFound();
-        }
+        if(result == null){return NotFound();}
         this._unitOfWork.Users.Remove(result);
         await this._unitOfWork.SaveAsync();
         return NoContent();
