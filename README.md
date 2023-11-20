@@ -268,168 +268,168 @@ http://localhost:5000/api/Employee/employeesBossWithoutClients
 <b>Consultas resumen </b>
 1. ¿Cuántos empleados hay en la compañía?
 ```
-
+http://localhost:5000/api/Employee/totalEmployees
 ```
 2. ¿Cuántos clientes tiene cada país?
 ```
-
+http://localhost:5000/api/Client/totalEmployeesByCountry
 ```
 3. ¿Cuál fue el pago medio en 2009?
 ```
-
+http://localhost:5000/api/Payment/averagePay2009
 ```
 4. ¿Cuántos pedidos hay en cada estado? Ordena el resultado de forma 
 descendente por el número de pedidos.
 ```
-
+http://localhost:5000/api/Request/requestByState
 ```
 5. ¿Cuántos clientes existen con domicilio en la ciudad de Madrid?
 ```
-
+http://localhost:5000/api/Client/totalClientsMadrid
 ```
 6. ¿Calcula cuántos clientes tiene cada una de las ciudades que empiezan 
 por M?
 ```
-
+http://localhost:5000/api/Client/totalClientsM
 ```
 7. Devuelve el nombre de los representantes de ventas y el número de clientes 
 al que atiende cada uno.
 ```
-
+http://localhost:5000/api/Client/totalclientsByEmployee
 ```
 8. Calcula el número de clientes que no tiene asignado representante de 
 ventas.
 ```
-
+http://localhost:5000/api/Client/quantityWithoutSeller
 ```
 9. Calcula la fecha del primer y último pago realizado por cada uno de los 
 clientes. El listado deberá mostrar el nombre y los apellidos de cada cliente.
 ```
-
+http://localhost:5000/api/Client/clientsPaymentsDate
 ```
 10. Calcula el número de productos diferentes que hay en cada uno de los 
 pedidos.
 ```
-
+http://localhost:5000/api/Request/quantityProducts
 ```
 11. Calcula la suma de la cantidad total de todos los productos que aparecen en 
 cada uno de los pedidos.
 ```
-
+http://localhost:5000/api/Request/sumProductsRequest
 ```
 12. Devuelve un listado de los 20 productos más vendidos y el número total de 
 unidades que se han vendido de cada uno. El listado deberá estar ordenado 
 por el número total de unidades vendidas.
 ```
-
+http://localhost:5000/api/Request/products20Sold
 ```
 13. La misma información que en la pregunta anterior, pero agrupada por 
 código de producto.
 ```
-
+http://localhost:5000/api/Request/productsCode20Sold
 ```
 14. La misma información que en la pregunta anterior, pero agrupada por 
 código de producto filtrada por los códigos que empiecen por OR.
 ```
-
+http://localhost:5000/api/Request/productsCode20StartOR
 ```
 15. Lista las ventas totales de los productos que hayan facturado más de 3000 
 euros. Se mostrará el nombre, unidades vendidas, total facturado y total 
 facturado con impuestos (21% IVA).
 ```
-
+http://localhost:5000/api/Request/productsTotal3000
 ```
 16. Muestre la suma total de todos los pagos que se realizaron para cada uno 
 de los años que aparecen en la tabla pagos.
 ```
-
+http://localhost:5000/api/Payment/paymentByYear
 ```
 <b> Subconsultas </b>
 1. Devuelve el nombre del cliente con mayor límite de crédito.
 ```
-
+http://localhost:5000/api/Client/clientCreditlimit
 ```
 2. Devuelve el nombre del producto que tenga el precio de venta más caro.
 ```
-
+http://localhost:5000/api/Product/moreExpensivePrice
 ```
 3. Devuelve el nombre del producto del que se han vendido más unidades. 
 (Tenga en cuenta que tendrá que calcular cuál es el número total de 
 unidades que se han vendido de cada producto a partir de los datos de la 
 tabla detalle_pedido)
 ```
-
+http://localhost:5000/api/Product/mostSold
 ```
 4. Los clientes cuyo límite de crédito sea mayor que los pagos que haya 
 realizado. (Sin utilizar INNER JOIN).
 ```
-
+http://localhost:5000/api/Client/clientCreditlimitGreaterPayments
 ```
 8. Devuelve el nombre del cliente con mayor límite de crédito.
 ```
-
+http://localhost:5000/api/Client/clientCreditlimit2
 ```
 9. Devuelve el nombre del producto que tenga el precio de venta más caro.
 ```
-
+http://localhost:5000/api/Product/moreExpensivePrice2
 ```
 11. Devuelve un listado que muestre solamente los clientes que no han 
 realizado ningún pago.
 ```
-
+http://localhost:5000/api/Client/clientsWithoutPayments2
 ```
 12. Devuelve un listado que muestre solamente los clientes que sí han realizado 
 algún pago.
 ```
-
+http://localhost:5000/api/Client/clientsWithPayments
 ```
 13. Devuelve un listado de los productos que nunca han aparecido en un 
 pedido.
 ```
-
+http://localhost:5000/api/Product/productsWithoutRequest3
 ```
 14. Devuelve el nombre, apellidos, puesto y teléfono de la oficina de aquellos 
 empleados que no sean representante de ventas de ningún cliente.
 ```
-
+http://localhost:5000/api/Employee/employeesWithoutClients2
 ```
 18. Devuelve un listado que muestre solamente los clientes que no han 
 realizado ningún pago.
 ```
-
+http://localhost:5000/api/Client/clientsWithoutPayments3
 ```
 19. Devuelve un listado que muestre solamente los clientes que sí han realizado 
 algún pago.
 ```
-
+http://localhost:5000/api/Client/clientPayments
 ```
 <b>Consultas variadas </b>
 1. Devuelve el listado de clientes indicando el nombre del cliente y cuántos 
 pedidos ha realizado. Tenga en cuenta que pueden existir clientes que no 
 han realizado ningún pedido.
 ```
-
+http://localhost:5000/api/Client/clientQuantityPayments
 ```
 2. Devuelve el nombre de los clientes que hayan hecho pedidos en 2008 
 ordenados alfabéticamente de menor a mayor.
 ```
-
+http://localhost:5000/api/Client/clientsRequest2008
 ```
 3. Devuelve el nombre del cliente, el nombre y primer apellido de su 
 representante de ventas y el número de teléfono de la oficina del 
 representante de ventas, de aquellos clientes que no hayan realizado ningún 
 pago.
 ```
-
+http://localhost:5000/api/Client/clientsWithoutPayments4
 ```
 4. Devuelve el listado de clientes donde aparezca el nombre del cliente, el 
 nombre y primer apellido de su representante de ventas y la ciudad donde 
 está su oficina.
 ```
-
+http://localhost:5000/api/Client/clientsWihtEmployeeAndOffice
 ```
 5. Devuelve el nombre, apellidos, puesto y teléfono de la oficina de aquellos 
 empleados que no sean representante de ventas de ningún cliente.
 ```
-
+http://localhost:5000/api/Employee/employeesWithoutClients3
 ```
