@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 using Domain.Entities;
 using Domain.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -55,6 +56,123 @@ public class ClientRepository : GenericRepository<Client>, IClient
         
     }
 
+    //CI 5
+    public async Task<IEnumerable<object>> GetclientsWithoutPaymentsAndSellerOffice()
+    {
+        var clients = await _context.Clients.ToListAsync();
+        var payments = await _context.Payments.ToListAsync();
+        var employees =  await _context.Employees.ToListAsync();
+        var offices =  await _context.Offices.ToListAsync();
+
+        return  from client in clients
+                        join payment in payments on client.Id equals payment.IdClient into h
+                        join employee in employees on client.IdEmployee equals employee.Id
+                        join office in offices on employee.IdBoss equals office.Id
+                        from all in h.DefaultIfEmpty()
+                        where all?.Id == null
+                        select new {
+                            client = client.NameClient,
+                            seller = employee.Name,
+                            office_city = office.City
+                        };
+    }
+
+    //CI 1
+    public async Task<IEnumerable<object>> GetclientsAndSeller()
+    {
+        var clients = await _context.Clients.ToListAsync();
+        var employees =  await _context.Employees.ToListAsync();
+        return  from client in clients
+                        join employee in employees on client.IdEmployee equals employee.Id
+                        select new {
+                            client = client.NameClient,
+                            seller = employee.Name
+                        };
+    }
+
+    //CI 3
+    public async Task<IEnumerable<object>> GetclientsWithoutPaymentsAndSeller()
+    {
+        var clients = await _context.Clients.ToListAsync();
+        var payments = await _context.Payments.ToListAsync();
+        var employees =  await _context.Employees.ToListAsync();
+
+        return  (from client in clients
+                        join payment in payments on client.Id equals payment.IdClient into h
+                        join employee in employees on client.IdEmployee equals employee.Id
+                        from all in h.DefaultIfEmpty()
+                        where all?.Id == null
+                        select new {
+                            client = client.NameClient,
+                            seller = employee.Name
+                        }).Distinct();
+    }
+
+    //CI 4
+    public async Task<IEnumerable<object>> GetclientsPaymentsAndSellerOffice()
+    {
+        var clients = await _context.Clients.ToListAsync();
+        var payments = await _context.Payments.ToListAsync();
+        var employees =  await _context.Employees.ToListAsync();
+        var offices =  await _context.Offices.ToListAsync();
+
+        return  (from client in clients
+                        join payment in payments on client.Id equals payment.IdClient 
+                        join employee in employees on client.IdEmployee equals employee.Id
+                        join office in offices on employee.IdBoss equals office.Id
+                        select new {
+                            client = client.NameClient,
+                            seller = employee.Name,
+                            office_city = office.City
+                        }).Distinct();
+    }
+    //CI 2
+    public async Task<IEnumerable<object>> GetclientsPaymentsAndSeller()
+    {
+        var clients = await _context.Clients.ToListAsync();
+        var payments = await _context.Payments.ToListAsync();
+        var employees =  await _context.Employees.ToListAsync();
+
+        return  (from client in clients
+                        join payment in payments on client.Id equals payment.IdClient
+                        join employee in employees on client.IdEmployee equals employee.Id
+                        select new {
+                            client = client.NameClient,
+                            seller = employee.Name
+                        }).Distinct();
+    }
+    //CI7
+    public async Task<IEnumerable<object>> GetRequestLate()
+    {
+        return await (from client in _context.Clients
+                        join request in _context.Requests on client.Id equals request.IdClient
+                        where request.ExpectedDate < request.DeliveryDate
+                        select new {
+                            client.NameClient
+                        }
+                        ).Distinct().ToListAsync();
+    }
+
+    //CI8
+    public async Task<IEnumerable<object>> GetProducttypeByClient()
+    {
+        var result = await (
+            from client in _context.Clients
+            join request in _context.Requests on client.Id equals request.IdClient
+            join requestDetail in _context.Requestdetails on request.Id equals requestDetail.IdRequest
+            join product in _context.Products on requestDetail.IdProduct equals product.Id
+            join productType in _context.Producttypes on product.IdProductType equals productType.Id
+            group productType.Type by client.NameClient into grouped
+            select new
+            {
+                ClientName = grouped.Key,
+                ProductTypes = grouped.ToList()
+            }
+        ).ToListAsync();
+
+        return result;
+
+    }
     //CE 1
     public async Task<IEnumerable<Client>> GetClientsWithoutPayments()
     {

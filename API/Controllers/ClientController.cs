@@ -134,6 +134,78 @@ public class ClientController : ApiBaseController
         return Ok(_mapper.Map<IEnumerable<ClientDto>>(result));
     }
 
+    // CI 1. Obtén un listado con el nombre de cada cliente y el nombre y apellido de su representante de ventas.
+    [HttpGet("clientsAndSeller")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> GetclientsAndSeller()
+    {
+        var result = await _unitOfWork.Clients.GetclientsAndSeller();
+        return Ok(result);
+    }
+    //CI 2. Muestra el nombre de los clientes que hayan realizado pagos junto con el nombre de sus representantes de ventas.
+    [HttpGet("clientsPaymentsAndSeller")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> GetclientsPaymentsAndSeller()
+    {
+        var result = await _unitOfWork.Clients.GetclientsPaymentsAndSeller();
+        return Ok(result);
+    }
+    // CI 3. Muestra el nombre de los clientes que no hayan realizado pagos junto con el nombre de sus representantes de ventas.
+    [HttpGet("clientsWithoutPaymentsAndSeller")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> GetclientsWithoutPaymentsAndSeller()
+    {
+        var result = await _unitOfWork.Clients.GetclientsWithoutPaymentsAndSeller();
+        return Ok(result);
+    }
+    //CI 4. Devuelve el nombre de los clientes que han hecho pagos y el nombre de sus representantes junto con la ciudad de la oficina a la que pertenece el representante.
+    [HttpGet("clientsPaymentsAndSellerOffice")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> GetclientsPaymentsAndSellerOffice()
+    {
+        var result = await _unitOfWork.Clients.GetclientsPaymentsAndSellerOffice();
+        return Ok(result);
+    }
+    //CI 5. Devuelve el nombre de los clientes que no hayan hecho pagos y el nombre de sus representantes junto con la ciudad de la oficina a la que pertenece el representante.
+    [HttpGet("clientsWithoutPaymentsAndSellerOffice")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> GetclientsWithoutPaymentsAndSellerOffice()
+    {
+        var result = await _unitOfWork.Clients.GetclientsWithoutPaymentsAndSellerOffice();
+        return Ok(result);
+    }
+
+    //CI 7.Devuelve el nombre de los clientes a los que no se les ha entregado a tiempo un pedido. 
+    [HttpGet("requestLate")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> GetRequestLate()
+    {
+        var result = await _unitOfWork.Clients.GetRequestLate();
+        return Ok(result);
+    }
+
+    //CI 8.Devuelve un listado de las diferentes gamas de producto que ha comprado cada cliente.
+    [HttpGet("producttypeByClient")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> GetProducttypeByClient()
+    {
+        var result = await _unitOfWork.Clients.GetProducttypeByClient();
+        return Ok(result);
+    }
     // CE 1.Devuelve un listado que muestre solamente los clientes que no han realizado ningún pago.
     [HttpGet("clientsWithoutPayments")]
     [MapToApiVersion("1.0")]

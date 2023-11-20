@@ -29,9 +29,25 @@ public class EmployeeRepository : GenericRepository<Employee>, IEmployee
                             .ToListAsync();
         return (totalRegistros, registros);
     }
+
+    //CI 6
+    public async Task<object> GetEmployeesWithBoss()
+    {
+        var clients = await (from employee in _context.Employees
+                             join boss in _context.Employees on employee.IdBoss equals boss.Id into h
+                             from Boss in h.DefaultIfEmpty()
+                             join superBoss in _context.Employees on Boss.IdBoss equals superBoss.Id into h2
+                             from SuperBoss in h2.DefaultIfEmpty()
+                             select new
+                             {
+                                 employee = employee.Name,
+                                 boss = Boss.Name ?? "-",
+                                 Superboss = SuperBoss.Name ?? "-"
+                             }).ToListAsync();
+        return clients;
+    }
     
     //CE 9
-
     public async Task<IEnumerable<object>> GetEmployeesBossWithoutClients()
     {
         var employees = await _context.Employees.ToListAsync();

@@ -28,6 +28,16 @@ public interface IClient : IGenericRepository<Client>
     Task<object> GetClientCreditlimitGreaterPayments();
     Task<object> GetClientCreditlimit2();
 
+    Task<IEnumerable<object>> GetclientsWithoutPaymentsAndSellerOffice();
+    Task<IEnumerable<object>> GetclientsPaymentsAndSellerOffice();
+    Task<IEnumerable<object>> GetclientsWithoutPaymentsAndSeller();
+    Task<IEnumerable<object>> GetclientsAndSeller();
+    Task<IEnumerable<object>> GetclientsPaymentsAndSeller();
+    Task<IEnumerable<object>> GetRequestLate();
+    Task<IEnumerable<object>> GetProducttypeByClient();
+
+
+
 
 
 }

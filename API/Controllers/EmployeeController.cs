@@ -98,6 +98,17 @@ public class EmployeeController : ApiBaseController
         return NoContent();
     }
 
+    //CI 6 Devuelve un listado que muestre el nombre de cada empleados, el nombre de su jefe y el nombre del jefe de sus jefe. 
+    [HttpGet("employeesWithBoss")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> GetEmployeesWithBoss()
+    {
+        var result = await _unitOfWork.Employees.GetEmployeesWithBoss();
+        return Ok(result);
+    }
+
     //CE 3. Devuelve un listado que muestre solamente los empleados que no tienen un cliente asociado junto con los datos de la oficina donde trabajan.
     [HttpGet("employeesWithoutClients")]
     [MapToApiVersion("1.0")]
