@@ -210,7 +210,7 @@ http://localhost:5000/api/Request/requestDelivered
   * Consulta en SQL
 ```sql
 SELECT * FROM request
-WHERE state = 'Rechazado' AND YEAR(requestDate) = 2009;
+WHERE state = 'Rechazado' AND DATE_FORMAT(requestDate, '%m') = 01;
 ```
 13. Devuelve un listado con todos los pagos que se realizaron en el 
 año 2008 mediante Paypal. Ordene el resultado de mayor a menor.
