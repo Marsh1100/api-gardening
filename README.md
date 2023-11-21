@@ -80,7 +80,7 @@ Ha este punto se cuenta con la conexión de la webapi con la base de datos. Con 
 En cada uno de los controladores se realizó el CRUD correspondiente de las tablas. En el siguiente link [Peticiones](https://github.com/Marsh1100/api-gardening/blob/main/consultas-insomnia), es un archivo contenido en el proyecto, puede importarse a Insomia para visualizar cada una de las peticiones realizadas.
 ## Restricción de peticiones consecutivas
 Limitación de peticiones desde una Ip a la webapi.<br>
-Ejemplo al intentar acceder más de 3 veces en 10 segundos a la lista de propietarios de mascotas<br>
+Ejemplo al intentar acceder más de 3 veces en 10 segundos a la consulta<br>
 ![image](https://github.com/Marsh1100/api-gardening/blob/main/img/img12.png)<br><br>
 ## Paginación de peteciones get y Versionado
 Se realizó la paginación en las peticiones get de cada uno de las tablas en la version 1.1.<br>
