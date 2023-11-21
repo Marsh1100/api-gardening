@@ -2,9 +2,8 @@
 
 USE gardening;
 /*1. Devuelve un listado con el nombre de los todos los clients españoles.*/
-SELECT *
-FROM gardening.client
-WHERE client.country = 'Spain';
+SELECT * FROM client
+WHERE country = 'Spain';
 
 /*2.Devuelve un listado con los distintos estados por los que puede pasar un
 pedido.*/
@@ -58,27 +57,23 @@ FROM request
 WHERE DATEDIFF(expectedDate, deliveryDate ) >= 2;
 
 -- 11. Devuelve un listado de todos los pedidos que fueron rechazados en 2009.
-SELECT * 
-FROM request
+SELECT * FROM request
 WHERE state = 'Rechazado' AND YEAR(requestDate) = 2009;
 
 -- 12. Devuelve un listado de todos los pedidos que han sido entregados en el mes de enero de cualquier año.
-SELECT * 
-FROM request
-WHERE state = 'Entregado' AND DATE_FORMAT(requestDate, '%m') = 01;
+SELECT * FROM request
+WHERE state = 'Rechazado' AND YEAR(requestDate) = 2009;
 
 /* 13. Devuelve un listado con todos los pagos que se realizaron en el 
 año 2008 mediante Paypal. Ordene el resultado de mayor a menor*/
-SELECT * 
-FROM payment
+SELECT * FROM payment
 WHERE paymentMethod = 'PayPal' AND DATE_FORMAT(paymentDate , '%Y') = 2008
 ORDER BY total DESC;
 
 /*14.  Devuelve un listado con todas las formas de pago que aparecen en la 
 tabla pago. Tenga en cuenta que no deben aparecer formas de pago 
 repetidas*/
-SELECT paymentMethod
-FROM payment
+SELECT paymentMethod FROM payment
 GROUP BY paymentMethod;
 
 /*15.  Devuelve un listado con todos los productos que pertenecen a la gama 
@@ -95,8 +90,7 @@ ORDER BY product.salePrice DESC;
 /*16. Devuelve un listado con todos los clients que sean de la ciudad de Madrid y 
 cuyo representante de ventas tenga el código de empleado 11 o 30 */
 
-SELECT * 
-FROM client
+SELECT * FROM client
 WHERE city = 'Madrid' AND (idEmployee= 11 OR idEmployee = 30);
 
 -- 1.4.5 Consultas multitabla (Composición interna)
@@ -152,7 +146,7 @@ LEFT JOIN employee superBoss ON boss.idBoss = superBoss.id;
 
 /* CI 7. Devuelve el nombre de los clientes a los que no se les ha entregado a
 tiempo un pedido. */
-SELECT DISTINCT client.nameClient 
+SELECT DISTINCT nameClient 
 FROM client
 JOIN request ON client.id = request.idClient
 WHERE request.deliveryDate > request.expectedDate;
@@ -178,15 +172,13 @@ SELECT client.id, client.nameClient, client.nameContact, client.lastnameContact,
 client.address1, client.address2, client.city, client.region, client.country, client.zipCode, client.idEmployee, client.creditLimit
 FROM client;
 
-SELECT *
-FROM viewClient client
+SELECT * FROM viewClient client
 LEFT JOIN payment ON client.id = payment.idClient
 WHERE payment.idClient IS NULL;
 
 /*CE 2.Devuelve un listado que muestre los clients que no han realizado ningún
 pago y los que no han realizado ningún pedido*/
-SELECT *
-FROM viewClient client
+SELECT * FROM viewClient client
 LEFT JOIN payment ON client.id = payment.idClient
 LEFT JOIN request ON client.id = request.idClient
 WHERE payment.idClient IS NULL AND request.idClient IS NULL;
@@ -431,8 +423,7 @@ WHERE client.id IN (SELECT idClient FROM payment);
 
 /*Sub 13.Devuelve un listado de los productos que nunca han aparecido en un
 pedido.*/
-SELECT *
-FROM product
+SELECT * FROM product
 WHERE product.id NOT IN (SELECT idProduct FROM requestdetail);
 
 /*Sub 14.Devuelve el nombre, apellidos, puesto y teléfono de la oficina de aquellos
