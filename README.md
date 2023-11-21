@@ -50,6 +50,8 @@ Ha este punto se cuenta con la conexión de la webapi con la base de datos. Con 
 
 ¡Listo! Ahora podrá ejecutar los endpoints sin problema.<br>
 <br>
+## DDL (Data Definition Language)
+* [Link](https://github.com/Marsh1100/api-gardening/blob/main/DDL-gardening.sql) para acceder al DDL de la BD.
 ## Autenticación y autorización 
 * Autenticación de un usuario registrado.<br>
   ```
