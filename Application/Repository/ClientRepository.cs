@@ -157,18 +157,24 @@ public class ClientRepository : GenericRepository<Client>, IClient
     public async Task<IEnumerable<object>> GetProducttypeByClient()
     {
         var result = await (
-            from client in _context.Clients
-            join request in _context.Requests on client.Id equals request.IdClient
-            join requestDetail in _context.Requestdetails on request.Id equals requestDetail.IdRequest
-            join product in _context.Products on requestDetail.IdProduct equals product.Id
-            join productType in _context.Producttypes on product.IdProductType equals productType.Id
-            group productType.Type by client.NameClient into grouped
-            select new
-            {
-                ClientName = grouped.Key,
-                ProductTypes = grouped.ToList()
-            }
-        ).ToListAsync();
+                from client in _context.Clients
+                select new
+                {
+                    ClientName = client.NameClient,
+                    ProductTypes = (
+                        from request in _context.Requests
+                        join requestDetail in _context.Requestdetails on request.Id equals requestDetail.IdRequest
+                        join product in _context.Products on requestDetail.IdProduct equals product.Id
+                        join productType in _context.Producttypes on product.IdProductType equals productType.Id
+                        where client.Id == request.IdClient
+                        group productType by productType.Type into grouped
+                        select new
+                        {
+                            Type = grouped.Key
+                        }
+                ).ToList()
+                }
+                ).ToListAsync();
 
         return result;
 
