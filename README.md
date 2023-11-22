@@ -80,7 +80,7 @@ Ha este punto se cuenta con la conexión de la webapi con la base de datos. Con 
 En cada uno de los controladores se realizó el CRUD correspondiente de las tablas. En el siguiente link [Peticiones](https://github.com/Marsh1100/api-gardening/blob/main/consultas-insomnia), es un archivo contenido en el proyecto, puede importarse a Insomia para visualizar cada una de las peticiones realizadas.
 ## Restricción de peticiones consecutivas
 Limitación de peticiones desde una Ip a la webapi.<br>
-Ejemplo al intentar acceder más de 3 veces en 10 segundos a la lista de propietarios de mascotas<br>
+Ejemplo al intentar acceder más de 3 veces en 10 segundos a la consulta<br>
 ![image](https://github.com/Marsh1100/api-gardening/blob/main/img/img12.png)<br><br>
 ## Paginación de peteciones get y Versionado
 Se realizó la paginación en las peticiones get de cada uno de las tablas en la version 1.1.<br>
@@ -210,7 +210,7 @@ http://localhost:5000/api/Request/requestDelivered
   * Consulta en SQL
 ```sql
 SELECT * FROM request
-WHERE state = 'Rechazado' AND YEAR(requestDate) = 2009;
+WHERE state = 'Rechazado' AND DATE_FORMAT(requestDate, '%m') = 01;
 ```
 13. Devuelve un listado con todos los pagos que se realizaron en el 
 año 2008 mediante Paypal. Ordene el resultado de mayor a menor.
@@ -280,9 +280,8 @@ http://localhost:5000/api/Client/clientsPaymentsAndSeller
 ```sql
 SELECT DISTINCT client.id, client.nameclient AS client_name, employee.name AS employee
 FROM client 
-LEFT JOIN payment ON client.id = payment.idClient
-JOIN employee ON client.idEmployee = employee.id
-WHERE payment.id IS NOT NULL;
+JOIN payment ON client.id = payment.idClient
+JOIN employee ON client.idEmployee = employee.id;
 ```
 3. Muestra el nombre de los clientes que no hayan realizado pagos junto con 
 el nombre de sus representantes de ventas.
@@ -308,10 +307,9 @@ http://localhost:5000/api/Client/clientsPaymentsAndSellerOffice
 SELECT DISTINCT client.nameclient AS client_name, employee.name AS employee,
 office.city AS office_city
 FROM client 
-LEFT JOIN payment ON client.id = payment.idClient
+JOIN payment ON client.id = payment.idClient
 JOIN employee ON client.idEmployee = employee.id
-JOIN office ON employee.idOffice = office.id
-WHERE payment.id IS NOT NULL;
+JOIN office ON employee.idOffice = office.id;
 ```
 5. Devuelve el nombre de los clientes que no hayan hecho pagos y el nombre 
 de sus representantes junto con la ciudad de la oficina a la que pertenece el 
