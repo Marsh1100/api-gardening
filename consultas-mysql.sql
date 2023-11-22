@@ -62,7 +62,7 @@ WHERE state = 'Rechazado' AND YEAR(requestDate) = 2009;
 
 -- 12. Devuelve un listado de todos los pedidos que han sido entregados en el mes de enero de cualquier año.
 SELECT * FROM request
-WHERE state = 'Rechazado' AND YEAR(requestDate) = 2009;
+WHERE state = 'Rechazado' AND DATE_FORMAT(requestDate, '%m') = 01;
 
 /* 13. Devuelve un listado con todos los pagos que se realizaron en el 
 año 2008 mediante Paypal. Ordene el resultado de mayor a menor*/
@@ -104,9 +104,8 @@ JOIN employee ON client.idEmployee = employee.id;
 nombre de sus representantes de ventas.*/
 SELECT DISTINCT client.id, client.nameclient AS client_name, employee.name AS employee
 FROM client 
-LEFT JOIN payment ON client.id = payment.idClient
-JOIN employee ON client.idEmployee = employee.id
-WHERE payment.id IS NOT NULL;
+JOIN payment ON client.id = payment.idClient
+JOIN employee ON client.idEmployee = employee.id;
 /*CI 3. Muestra el nombre de los clientes que no hayan realizado pagos junto con
 el nombre de sus representantes de ventas.*/
 SELECT DISTINCT client.id, client.nameclient AS client_name, employee.name AS employee
@@ -121,10 +120,9 @@ representante.*/
 SELECT DISTINCT client.nameclient AS client_name, employee.name AS employee,
 office.city AS office_city
 FROM client 
-LEFT JOIN payment ON client.id = payment.idClient
+JOIN payment ON client.id = payment.idClient
 JOIN employee ON client.idEmployee = employee.id
-JOIN office ON employee.idOffice = office.id
-WHERE payment.id IS NOT NULL;
+JOIN office ON employee.idOffice = office.id;
 
 /*CI 5. Devuelve el nombre de los clientes que no hayan hecho pagos y el nombre
 de sus representantes junto con la ciudad de la oficina a la que pertenece el
